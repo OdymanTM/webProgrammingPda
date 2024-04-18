@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts Page</title>
+    <link rel="stylesheet" href="../css/menu_style.css">
+    <link href="https://fonts.googleapis.com/css?family=Source Code Pro" rel="stylesheet">
+    <script src="../js/menu_script.js"></script>
+</head>
+
+<body>
+
+    <div class="header">
+        <img id="logo" src="../images/icons/logo.png" alt="App Logo">
+        Jobs
+        <button class = "button" onclick="buttons()"><img src="../images/icons/buttons.png"></button>
+    </div>
+    <div class="separator">
+        <hr>
+    </div> 
+    <div class = "menu_categories">
+        <button class = "menu" id = "chosen" onclick="showMenu('Beverages')">Beverages</button>
+        <button class = "menu" onclick="showMenu('Brunch')">Brunch</button>
+        <button class = "menu" onclick="showMenu('Drinks')">Drinks</button>
+        <button class = "menu" onclick="showMenu('Coffee')">Coffee</button>
+        <button class = "menu" onclick="showMenu('Salads')">Salads</button>
+    </div>
+    <div class = "chosen_menu">
+        Beverages
+    </div>
+    <div class="items">
+        <div class="item" onclick="selectItem('Mojito')">
+            Mojito<br>
+            <div class="desc-and-price">
+                <p class = "desc">white rum, soda water, mint</p>
+                <p class = "price">7.0€</p>
+            </div>
+        </div>
+        <div class="inbetween-separator">
+            <hr>
+        </div> 
+        <div class="item" onclick="selectItem('Bloody Mary')">
+            Bloody Mary<br>
+            <div class="desc-and-price">
+                <p class = "desc">vodka, tomato juice, lemon </p>
+                <p class = "price">7.5€</p>
+            </div>
+        </div>
+        <div class="inbetween-separator">
+            <hr>
+        </div> 
+        <div class="item" onclick="selectItem('Old Fashioned')">
+            Old Fashioned<br>
+            <div class="desc-and-price">
+                <p class = "desc">rye whiskey, angostura bitter</p>
+                <p class = "price">8.0€</p>
+            </div>
+        </div>
+        <div class="inbetween-separator">
+            <hr>
+        </div> 
+    </div>
+
+    <div class="settings">
+        <button class="button" onclick="settings()"><img src="../images/icons/settings.png"></button>
+    </div>
+    <div class="end-separator">
+        <hr>
+    </div> 
+
+    <div class="footer">
+        <button class="button" onclick="menu()"><img src="../images/icons/menu.png"></button>
+        <button class="button" onclick="tables()"><img src="../images/icons/tables.png"></button>
+        <button class="button" onclick="history()"><img src="../images/icons/history.png"></button>
+    </div>
+
+</body>
+
+</html>

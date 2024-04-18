@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts Page</title>
+    <link rel="stylesheet" href="posts_style.css">
+    <link href="https://fonts.googleapis.com/css?family=Source Code Pro" rel="stylesheet">
+    <script src="posts_script.js"></script>
+</head>
+
+<body>
+
+    <div class="header">
+        <img id="logo" src="icons\logo.png" alt="App Logo">
+        Jobs
+        <button class = "button" onclick="buttons()"><img src="icons\buttons.png"></button>
+    </div>
+    <div class="separator">
+        <hr>
+    </div> 
+    <div class="choices">
+        <div class="choice" onclick="selectChoice('Waiter')">
+            Waiter
+        </div>
+        <div class="inbetween-separator">
+            <hr>
+        </div> 
+        <div class="choice" onclick="selectChoice('Kitchen')">
+            Kitchen
+        </div>
+        <div class="inbetween-separator">
+            <hr>
+        </div> 
+        <div class="choice" onclick="selectChoice('Bar')">
+            Bar
+        </div>
+        <div class="inbetween-separator">
+            <hr>
+        </div> 
+    </div>
+
+    <div class="settings">
+        <button class="button" onclick="settings()"><img src="icons\settings.png"></button>
+    </div>
+    <div class="end-separator">
+        <hr>
+    </div> 
+
+    <div class="footer">
+        <button class="button" onclick="menu()"><img src="icons\menu.png"></button>
+        <button class="button" onclick="tables()"><img src="icons\tables.png"></button>
+        <button class="button" onclick="history()"><img src="icons\history.png"></button>
+    </div>
+
+</body>
+
+</html>
