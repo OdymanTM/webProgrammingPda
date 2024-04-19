@@ -4,35 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Posts Page</title>
-    <link rel="stylesheet" href="../css/menu_style.css">
+    <title>Menu Page</title>
+    <link rel="stylesheet" href="menu_style.css">
     <link href="https://fonts.googleapis.com/css?family=Source Code Pro" rel="stylesheet">
-    <script src="../js/menu_script.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Newsreader" rel="stylesheet">
+    <script src="menu_script.js"></script>
 </head>
 
 <body>
 
     <div class="header">
-        <img id="logo" src="../images/icons/logo.png" alt="App Logo">
-        Jobs
-        <button class = "button" onclick="buttons()"><img src="../images/icons/buttons.png"></button>
+        <img id="logo" src="icons\logo.png" alt="App Logo">
+        Menu
+        <button class = "button" onclick="buttons()"><img src="icons\buttons.png"></button>
     </div>
     <div class="separator">
         <hr>
     </div> 
     <div class = "menu_categories">
-        <button class = "menu" id = "chosen" onclick="showMenu('Beverages')">Beverages</button>
-        <button class = "menu" onclick="showMenu('Brunch')">Brunch</button>
-        <button class = "menu" onclick="showMenu('Drinks')">Drinks</button>
-        <button class = "menu" onclick="showMenu('Coffee')">Coffee</button>
-        <button class = "menu" onclick="showMenu('Salads')">Salads</button>
+        <button class = "menu" id = "chosen">Beverages</button>
+        <button class = "menu">Brunch</button>
+        <button class = "menu">Drinks</button>
+        <button class = "menu">Coffee</button>
+        <button class = "menu">Salads</button>
     </div>
     <div class = "chosen_menu">
         Beverages
     </div>
     <div class="items">
-        <div class="item" onclick="selectItem('Mojito')">
-            Mojito<br>
+        <div class="item">
+            <p class = "text-content">Mojito<br></p>
             <div class="desc-and-price">
                 <p class = "desc">white rum, soda water, mint</p>
                 <p class = "price">7.0€</p>
@@ -41,8 +42,8 @@
         <div class="inbetween-separator">
             <hr>
         </div> 
-        <div class="item" onclick="selectItem('Bloody Mary')">
-            Bloody Mary<br>
+        <div class="item">
+            <p class = "text-content">Bloody Mary<br></p>
             <div class="desc-and-price">
                 <p class = "desc">vodka, tomato juice, lemon </p>
                 <p class = "price">7.5€</p>
@@ -51,8 +52,8 @@
         <div class="inbetween-separator">
             <hr>
         </div> 
-        <div class="item" onclick="selectItem('Old Fashioned')">
-            Old Fashioned<br>
+        <div class="item">
+            <p class = "text-content">Old Fashioned<br></p>
             <div class="desc-and-price">
                 <p class = "desc">rye whiskey, angostura bitter</p>
                 <p class = "price">8.0€</p>
@@ -64,16 +65,16 @@
     </div>
 
     <div class="settings">
-        <button class="button" onclick="settings()"><img src="../images/icons/settings.png"></button>
+        <button class="button" onclick="settings()"><img src="icons\settings.png"></button>
     </div>
     <div class="end-separator">
         <hr>
     </div> 
 
     <div class="footer">
-        <button class="button" onclick="menu()"><img src="../images/icons/menu.png"></button>
-        <button class="button" onclick="tables()"><img src="../images/icons/tables.png"></button>
-        <button class="button" onclick="history()"><img src="../images/icons/history.png"></button>
+        <button class="button" onclick="menu()"><img src="icons\menu.png"></button>
+        <button class="button" onclick="tables()"><img src="icons\tables.png"></button>
+        <button class="button" onclick="history()"><img src="icons\history.png"></button>
     </div>
 
 </body>

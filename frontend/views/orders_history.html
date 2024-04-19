@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders History Page</title>
+    <link rel="stylesheet" href="orders_history_style.css">
+    <link href="https://fonts.googleapis.com/css?family=Source Code Pro" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Newsreader" rel="stylesheet">
+    <script src="orders_history_script.js"></script>
+</head>
+
+<body>
+
+    <div class="header">
+        <img id="logo" src="icons\logo.png" alt="App Logo">
+        Orders History
+        <button class = "button" onclick="buttons()"><img src="icons\buttons.png"></button>
+    </div>
+    <div class="separator">
+        <hr>
+    </div> 
+    <div class = "sectors">
+        <button class = "sector" id = "chosen">Sector 1</button>
+        <button class = "sector">Sector 2</button>
+        <button class = "sector">Garden</button>
+    </div>
+    <div class = "chosen_sector">
+        Sector 1
+    </div>
+    <div class="orders">
+        <div class="order">
+            <div class = "total">
+                Total:<br><p class = "price">22.50€</p>
+            </div>
+            <div class = "right-bar">
+                <div class = "table-and-date">
+                    <div class = "receipt"><img src="icons/receipt.png"></div>
+                    <div>Table 3<br>Today</div>
+                </div>
+                <div class = "payment-status">
+                    not paid!
+                </div>
+            </div>
+        </div>
+        <div class="inbetween-separator">
+            <hr>
+        </div> 
+        <div class="order">
+            <div class = "total">
+                Total:<br><p class = "price">19.30€</p>
+            </div>
+            <div class = "right-bar">
+                <div class = "table-and-date">
+                    <div class = "receipt"><img src="icons/receipt.png"></div>
+                    <div>Table 4<br>Today</div>
+                </div>
+                <div class = "payment-status">
+                    paid!
+                </div>
+            </div>
+        </div>
+        <div class="inbetween-separator">
+            <hr>
+        </div> 
+        <div class="order">
+            <div class = "total">
+                Total:<br><p class = "price">25.70€</p>
+            </div>
+            <div class = "right-bar">
+                <div class = "table-and-date">
+                    <div class = "receipt"><img src="icons/receipt.png"></div>
+                    <div>Table 1<br>19 July 2023</div>
+                </div>
+            </div>
+        </div>
+        <div class="inbetween-separator">
+            <hr>
+        </div> 
+        <div class="order">
+            <div class = "total">
+                Total:<br><p class = "price">35.70€</p>
+            </div>
+            <div class = "right-bar">
+                <div class = "table-and-date">
+                    <div class = "receipt"><img src="icons/receipt.png"></div>
+                    <div>Table 2<br>19 May 2023</div>
+                </div>
+            </div>
+        </div>
+        <div class="inbetween-separator">
+            <hr>
+        </div>
+        <div class="order">
+            <div class = "total">
+                Total:<br><p class = "price">17.70€</p>
+            </div>
+            <div class = "right-bar">
+                <div class = "table-and-date">
+                    <div class = "receipt"><img src="icons/receipt.png"></div>
+                    <div>Table 4<br>08 April 2023</div>
+                </div>
+            </div>
+        </div>
+        <div class="inbetween-separator">
+            <hr>
+        </div>
+    </div>
+
+    <div class="settings">
+        <button class="button" onclick="settings()"><img src="icons\settings.png"></button>
+    </div>
+    <div class="end-separator">
+        <hr>
+    </div> 
+
+    <div class="footer">
+        <button class="button" onclick="menu()"><img src="icons\menu.png"></button>
+        <button class="button" onclick="tables()"><img src="icons\tables.png"></button>
+        <button class="button" onclick="history()"><img src="icons\history.png"></button>
+    </div>
+
+</body>
+
+</html>
