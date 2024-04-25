@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             let chosen = document.querySelector('#chosen');
             if (chosen.innerHTML == 'Coffee'){
+
                 let par = document.createElement('p');
                 par.classList = 'par';
                 par.innerHTML = 'size:';
@@ -45,6 +46,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 amount.appendChild(size);
                 div.removeEventListener('click', selectSize);
                 div.appendChild(amount);
+
+                document.querySelectorAll('.sizeButton').forEach(button => {
+                    button.addEventListener('click', function(){
+                        let prevSelectedSize = document.querySelector('#set');
+                        prevSelectedSize.removeAttribute("id");
+            
+                        button.setAttribute("id", "set");
+                    })
+                })
             } 
             let countAndConfirm = document.createElement('div');
             countAndConfirm.className = 'countAndConfirm';
@@ -59,9 +69,11 @@ document.addEventListener('DOMContentLoaded', function() {
             let number = document.createElement('p');
             number.innerHTML = '1';
             number.className = 'operations';
+            number.setAttribute('id','opText');
             counter.appendChild(plus);
             counter.appendChild(number);
             counter.appendChild(minus);
+
             let confirm = document.createElement('button');
             confirm.className = 'confirm';
             confirm.innerHTML = 'Add to Basket';
@@ -70,6 +82,20 @@ document.addEventListener('DOMContentLoaded', function() {
             countAndConfirm.appendChild(confirm);
             
             div.appendChild(countAndConfirm);
+            document.querySelectorAll('.operations').forEach(button => {
+                button.addEventListener('click', function (){
+                const sum = document.querySelector('#opText');
+                let innerSum = parseInt(sum.innerHTML,10);
+                if (button.innerHTML === '+'){
+                    sum.innerHTML = innerSum + 1;
+                }
+                else if (button.innerHTML === '-' && innerSum > 0){
+                    sum.innerHTML = innerSum - 1;
+                }
+                });
+            });
         })
     })
+
+    
 });
