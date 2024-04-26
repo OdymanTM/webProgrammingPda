@@ -8,11 +8,11 @@ class Customer   {
     getCustomersVisitCount(email, callback) {
         const query = 'SELECT timesVisited FROM customer WHERE email = ?'
         return new Promise((resolve, reject) => {
-            this.db.run(query, [email], function (err, row) {
+            this.db.run(query, [email], function (err, rows) {
                 if (err) {
-                    reject(err);
+                    reject(callback(err, null));
                 } else {
-                    resolve(callback(row));
+                    resolve(callback(null, rows));
                 }
             });
         });
