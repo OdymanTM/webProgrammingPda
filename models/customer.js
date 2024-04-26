@@ -5,8 +5,16 @@ class Customer   {
         this.email = email;
     }
 
-    getCustomersVisitCount() {
-        'SELECT timesVisited FROM customer WHERE email = ?'
-        return `${this.title} by ${this.author}, published in ${this.year}`;
+    getCustomersVisitCount(email, callback) {
+        const query = 'SELECT timesVisited FROM customer WHERE email = ?'
+        return new Promise((resolve, reject) => {
+            this.db.run(query, [email], function (err, row) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(callback(row));
+                }
+            });
+        });
     }
 }
