@@ -1,0 +1,34 @@
+    <div class="separator">
+        <hr>
+    </div>
+    <div class="menu_categories">
+        <button class="menu" id="chosen">Beverages</button>
+        <button class="menu">Brunch</button>
+        <button class="menu">Drinks</button>
+        <button class="menu">Coffee</button>
+        <button class="menu">Salads</button>
+    </div>
+    <div class="chosen_menu">
+        Beverages
+    </div>
+    <div class="items">
+        {{#each items}}
+        <div class="item">
+            <p class="text-content">{{name}}</p>
+            <div class="desc-and-price">
+                <p class="desc">{{description}}</p>
+                <p class="price">{{price}}</p>
+            </div>
+        </div>
+        <div class="inbetween-separator">
+            <hr>
+        </div>
+        {{/each}}
+    </div>
+
+    <div class="settings">
+        <button class="button" onclick="settings()"><img src="http://localhost:3000/images/settings.png"></button>
+    </div>
+    <div class="end-separator">
+        <hr>
+    </div>

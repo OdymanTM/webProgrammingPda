@@ -1,0 +1,36 @@
+<div class="separator">
+        <hr>
+    </div> 
+    <div class="choices">
+        <div class="choice" id="Waiter">
+            Waiter
+        </div>
+        <div class="inbetween-separator">
+            <hr>
+        </div> 
+        <div class="choice" id="Kitchen">
+            Kitchen
+        </div>
+        <div class="inbetween-separator">
+            <hr>
+        </div> 
+        <div class="choice" id="Bar">
+            Bar
+        </div>
+        <div class="inbetween-separator">
+            <hr>
+        </div> 
+    </div>
+
+    <div class="settings">
+        <button class="button" onclick="settings()"><img src="icons\settings.png"></button>
+    </div>
+    <div class="end-separator">
+        <hr>
+    </div> 
+
+    <script>
+        document.getElementById("Waiter").addEventListener("click", function() {
+            window.location.href = "/menu";
+        });
+    </script>
