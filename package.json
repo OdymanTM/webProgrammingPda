@@ -1,0 +1,28 @@
+{
+	"name": "menu",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.mjs",
+	"scripts": {
+		"clean": "rm -rf node_modules",
+		"reinstall": "npm run clean && npm install",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"debug": "nodemon --inspect ./menu_script_2.mjs",
+		"watch": "nodemon ./menu_script_2.mjs",
+		"start": "node ./menu_script_2.mjs"
+	},
+	"nodemonConfig": {
+		"ignore": [
+			"model/*.json"
+		]
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"express": "^4.19.2",
+		"express-handlebars": "^7.0.7",
+		"express-session": "^1.18.0",
+		"handlebars": "^4.7.8"
+	}
+}
