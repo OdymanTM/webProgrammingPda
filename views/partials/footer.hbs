@@ -1,0 +1,18 @@
+    <div class="footer">
+        <button class="button" id="menu"><img src="http://localhost:3000/images/menu.png"></button>
+        <button class="button" id="tables"><img src="http://localhost:3000/images/tables.png"></button>
+        <button class="button" id="orders_history"><img src="http://localhost:3000/images/history.png"></button>
+    </div>
+ 
+<script>
+        document.getElementById("menu").addEventListener("click", function() {
+            window.location.href = "/menu";
+            
+        });
+        document.getElementById("tables").addEventListener("click", function() {
+            window.location.href = "/tables";
+        });
+        document.getElementById("orders_history").addEventListener("click", function() {
+            window.location.href = "/orders_history";
+        });
+</script>
