@@ -1,5 +1,5 @@
 {
-	"name": "menu",
+	"name": "rise and grind",
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.mjs",
@@ -7,9 +7,9 @@
 		"clean": "rm -rf node_modules",
 		"reinstall": "npm run clean && npm install",
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"debug": "nodemon --inspect ./menu_script_2.mjs",
-		"watch": "nodemon ./menu_script_2.mjs",
-		"start": "node ./menu_script_2.mjs"
+		"debug": "nodemon --inspect ./app.mjs",
+		"watch": "nodemon ./app.mjs",
+		"start": "node ./app.mjs"
 	},
 	"nodemonConfig": {
 		"ignore": [
