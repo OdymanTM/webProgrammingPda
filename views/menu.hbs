@@ -2,14 +2,16 @@
         <hr>
     </div>
     <div class="menu_categories">
-        <button class="menu" id="chosen">Beverages</button>
-        <button class="menu">Brunch</button>
-        <button class="menu">Drinks</button>
-        <button class="menu">Coffee</button>
-        <button class="menu">Salads</button>
+        {{#each menuCats}}
+        {{#if chosen}}
+        <button class="menu" id="chosen" onclick="redirectToMenu('{{category}}')">{{category}}</button>
+        {{else}}
+        <button class="menu" onclick="redirectToMenu('{{category}}')">{{category}}</button>
+        {{/if}}
+        {{/each}}
     </div>
     <div class="chosen_menu">
-        Beverages
+        {{chosenCat}}
     </div>
     <div class="items">
         {{#each items}}
@@ -32,3 +34,23 @@
     <div class="end-separator">
         <hr>
     </div>
+
+    <script>
+        function redirectToMenu(category) {
+            window.location.href = "/menu/" + category;    
+            let prevChosenSubcat = document.querySelector('#chosen');
+            prevChosenSubcat.removeAttribute("id");
+            let button = event.target;
+            button.setAttribute("id", "chosen");
+            document.querySelector('.chosen_menu').textContent = button.textContent;
+        }
+
+/*
+        document.querySelectorAll('.menu').forEach(button => {
+            button.addEventListener('click', function(){
+                button.setAttribute("id", "chosen");
+                window.location.href = "/menu/Coffee";
+*/            
+                //document.querySelector('.chosen_menu').textContent = button.textContent;
+            //κώδικας για εναλλαγή των παραθύρων του menu
+    </script>

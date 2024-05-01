@@ -29,17 +29,17 @@ body {
     padding:0.1px;
 }
 
-.orders {
+.tables {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
 
-.order:first-child{
+.table:first-child{
     padding-top: 10px;
 }
 
-.order {
+.table {
     width: 90%;
     padding: 2px 5px 5px 10px;
     text-align: left;
@@ -50,7 +50,7 @@ body {
     text-align: center;
 }
 
-.total{
+.left-bar{
     padding:10px 20px 10px 20px;
     text-align: center;
 }
@@ -62,7 +62,7 @@ body {
     left:5px;
 }
 
-.order:first-child{
+.table:first-child{
     padding-top:18px;
 }
 
