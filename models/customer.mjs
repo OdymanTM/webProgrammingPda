@@ -1,5 +1,4 @@
-import sqlite3 from 'sqlite3';
-sqlite3.verbose()
+import pg from 'pg';
 class Customer   {
     constructor(email ) {
         this.email = email;

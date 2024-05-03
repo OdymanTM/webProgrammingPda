@@ -1,7 +1,8 @@
 import pg from 'pg';
 import dotenv from 'dotenv';
+
 dotenv.config();
-console.log(process.env.USER)
+
 const pool = new pg.Pool({
     user: process.env.user,
     host: process.env.host,
@@ -16,3 +17,5 @@ const pool = new pg.Pool({
   } catch (err) {
     console.error(err);
   }
+
+  module.exports()
