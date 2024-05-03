@@ -1,8 +1,10 @@
 import pg from 'pg';
 class Customer   {
-    constructor(email ) {
+    constructor(email) {
         this.email = email;
     }
+
+    
 
     getCustomersVisitCount(email, callback) {
         const query = 'SELECT timesVisited FROM customer WHERE email = ?'
