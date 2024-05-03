@@ -10,12 +10,5 @@ const pool = new pg.Pool({
     password: process.env.password,
     port: process.env.port,
   });
-  
-  try {
-    const { rows } = await pool.query('SELECT * FROM position');
-    console.log(rows)
-  } catch (err) {
-    console.error(err);
-  }
 
-  module.exports()
+export default pool;
