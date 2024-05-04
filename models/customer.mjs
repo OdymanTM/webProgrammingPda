@@ -1,4 +1,3 @@
-import e from 'express';
 import pool from './testing_db.mjs';
 
 class Customer   {
