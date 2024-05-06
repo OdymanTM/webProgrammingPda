@@ -15,3 +15,10 @@ node_modules/
 npm-debug.log
 
 .json
+dynamic-circle-422510-u6-c57f9a4be173.json
+
+Dockerfile
+
+.dockerignore
+
+fly.toml

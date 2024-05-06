@@ -12,7 +12,7 @@ class menuItem   {
 
     }
     static async getAllMenuItems(callback) {
-        const query = 'SELECT * FROM menuItem'
+        const query = 'SELECT * FROM "menuItem"'
         try {
             const { rows } = await pool.query(query);
             callback(null, rows)
@@ -82,5 +82,6 @@ class menuItem   {
     }
     
 }
+
 
 export default menuItem;

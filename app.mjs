@@ -3,13 +3,14 @@ import { engine } from 'express-handlebars';
 import path from 'path';
 import session from 'express-session';
 
+import menuItem  from './models/menuItem.mjs';
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = process.env.PORT || '3000';
-app.listen(port, () => { console.log(`http://127.0.0.1:${port}`) });
+app.listen(port,'0.0.0.0', () => { console.log(`http://0.0.0.0:${port}`) });
 
 app.engine('hbs', engine({ extname: 'hbs', defaultLayout: 'main', layoutsDir: __dirname + '/views/layouts'}));
 app.set('view engine', 'hbs');
@@ -130,6 +131,7 @@ const redirectHome = (req, res, next) => {
 
 app.get('/', (req,res) => {
   pageTitle = 'Posts';
+  menuItem.getAllMenuItems((err, res) => { console.log(err, res) });
   res.render('posts', { pageTitle: pageTitle});
 });
 
