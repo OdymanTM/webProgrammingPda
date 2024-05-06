@@ -131,7 +131,6 @@ const redirectHome = (req, res, next) => {
 
 app.get('/', (req,res) => {
   pageTitle = 'Posts';
-  menuItem.getAllMenuItems((err, res) => { console.log(err, res) });
   res.render('posts', { pageTitle: pageTitle});
 });
 
