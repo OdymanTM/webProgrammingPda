@@ -1,13 +1,17 @@
     <div class="separator">
         <hr>
     </div>
-    <div class = "sectors">
-        <button class = "sector" id = "chosen">Sector 1</button>
-        <button class = "sector">Sector 2</button>
-        <button class = "sector">Garden</button>
+    <div class="sectors">
+        {{#each sectors}}
+        {{#if chosen}}
+        <button class="sector" id="chosen" onclick="redirectToSector('{{sector}}')">{{sector}}</button>
+        {{else}}
+        <button class="sector" onclick="redirectToSector('{{sector}}')">{{sector}}</button>
+        {{/if}}
+        {{/each}}
     </div>
     <div class = "chosen_sector">
-        Sector 1
+        {{chosenSector}}
     </div>
     <div class="tables">
         {{#each tables}}
@@ -31,3 +35,14 @@
     <div class="end-separator">
         <hr>
     </div> 
+
+<script>
+    function redirectToSector(sector) {
+        window.location.href = "/tables/" + sector;    
+        let prevChosenSubcat = document.querySelector('#chosen');
+        prevChosenSubcat.removeAttribute("id");
+        let button = event.target;
+        button.setAttribute("id", "chosen");
+        document.querySelector('.chosen_sector').textContent = button.textContent;
+    }
+</script>
