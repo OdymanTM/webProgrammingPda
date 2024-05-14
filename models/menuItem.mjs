@@ -11,8 +11,19 @@ class menuItem   {
         this.availability = availability;
 
     }
+    static async getAvailableCategories (callback) {
+        const query = 'SELECT DISTINCT category FROM "menuItem" WHERE availability = true order by category'
+        try {
+            const { rows } = await pool.query(query);
+            callback(null, rows)
+          } catch (err) {
+            callback(err, null)
+          }
+    }
+
+
     static async getAllMenuItems(callback) {
-        const query = 'SELECT * FROM "menuItem"'
+        const query = 'SELECT * FROM "menuItem" WHERE availability = true order by "category", "name"'
         try {
             const { rows } = await pool.query(query);
             callback(null, rows)
@@ -55,9 +66,9 @@ class menuItem   {
         const query = 'SELECT * FROM menuItem WHERE id = $1'
         try {
             const { rows } = await pool.query(query, [id]);
-            callback(null, rows)
+            await callback(null, rows)
           } catch (err) {
-            callback(err, null)
+            await callback(err, null)
           }
     }
 
@@ -82,6 +93,4 @@ class menuItem   {
     }
     
 }
-
-
 export default menuItem;

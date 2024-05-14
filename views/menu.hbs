@@ -4,19 +4,20 @@
     <div class="menu_categories">
         {{#each menuCats}}
         {{#if chosen}}
-        <button class="menu" id="chosen" onclick="redirectToMenu('{{category}}')">{{category}}</button>
+        <button class="menu" id="chosen" onclick="redirectToMenu(0)">{{category}}</button>
         {{else}}
         <button class="menu" onclick="redirectToMenu('{{category}}')">{{category}}</button>
         {{/if}}
         {{/each}}
     </div>
+    {{#each items}}
     <div class="chosen_menu">
-        {{chosenCat}}
+        {{@key}}
     </div>
     <div class="items">
-        {{#each items}}
+        {{#each this}}
         <div class="item">
-            <p class="text-content">{{name}}</p>
+            <p class="text-content" data-bs-toggle="modal" data-bs-target="#myModal">{{name}}</p>
             <div class="desc-and-price">
                 <p class="desc">{{description}}</p>
                 <p class="price">{{price}}</p>
@@ -26,32 +27,20 @@
             <hr>
         </div>
         {{/each}}
-    </div>
-
-    <div class="settings">
-        
-        <button class="button" onclick="settings()"><img src="/images/settings.png"></button>
+        {{/each}}
     </div>
     <div class="end-separator">
         <hr>
     </div>
+    
 
     <script>
         function redirectToMenu(category) {
+            if (category !== 0) {
             window.location.href = "/menu/" + category;    
-            let prevChosenSubcat = document.querySelector('#chosen');
-            prevChosenSubcat.removeAttribute("id");
-            let button = event.target;
-            button.setAttribute("id", "chosen");
-            document.querySelector('.chosen_menu').textContent = button.textContent;
+            }
+            else {
+                window.location.href = "/menu";
+            }
         }
-
-/*
-        document.querySelectorAll('.menu').forEach(button => {
-            button.addEventListener('click', function(){
-                button.setAttribute("id", "chosen");
-                window.location.href = "/menu/Coffee";
-*/            
-                //document.querySelector('.chosen_menu').textContent = button.textContent;
-            //κώδικας για εναλλαγή των παραθύρων του menu
     </script>

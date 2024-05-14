@@ -1,10 +1,11 @@
 import express from 'express';
 import { engine } from 'express-handlebars';
 import path from 'path';
-import session from 'express-session';
-
+import * as menuController from './controllers/menu_customer.mjs';
 import menuItem  from './models/menuItem.mjs';
 import { fileURLToPath } from 'url';
+import e from 'express';
+import { get } from 'http';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -18,49 +19,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
 
 let pageTitle;
-
-const menuCats = 
-{
-    "categories": [
-      {
-        "category" :"Beverages",
-        "chosen": "true"
-      },
-      {
-        "category" :"Brunch"
-      },
-      {
-        "category" :"Drinks"
-      },
-      {
-        "category" :"Coffee"
-      },
-      {
-        "category" :"Salads"
-      }
-    ]
-}
-
-const menuData = 
-{
-    "items": [
-      {
-        "name": "Mojito",
-        "description": "white rum, soda water, mint",
-        "price": "7.0€"
-      },
-      {
-        "name": "Bloody Mary",
-        "description": "vodka, tomato juice, lemon",
-        "price": "7.5€"
-      },
-      {
-        "name": "Old Fashioned",
-        "description": "rye whiskey, angostura bitter",
-        "price": "8.0€"
-      }
-    ]
-}
 
 const ordersHistory = {
     "orders": [
@@ -122,37 +80,18 @@ const tables = {
   ]
 }
 
-/*
-const redirectHome = (req, res, next) => {
-  console.log('redirect...', req.session)
-  redirect('/');
-}
-*/
+
 
 app.get('/', (req,res) => {
-  pageTitle = 'Posts';
   res.render('posts', { pageTitle: pageTitle});
 });
 
-app.get('/menu', (req,res) => {
-  pageTitle = 'Menu';
-  res.render('menu', { pageTitle: pageTitle, menuCats: menuCats.categories, chosenCat: 'Beverages', items: menuData.items });
-});
+app.get('/menu',async (req,res) => {
+  await menuController.getMenu(req, res);
+  });
 
-app.get('/menu/:category', (req,res) => {
-  
-  pageTitle = 'Menu';
-  
-  const prevChosenCategory = menuCats.categories.find(cat => cat.chosen);
-  if (prevChosenCategory) {
-      delete prevChosenCategory.chosen;
-  }
-  const chosenCategory = menuCats.categories.find(cat => cat.category === req.params.category);
-  if (chosenCategory) {
-      chosenCategory.chosen = true;
-  }
-
-  res.render('menu', { pageTitle: pageTitle, menuCats: menuCats.categories, chosenCat: req.params.category, items: menuData.items });
+app.get('/menu/:category',async (req,res) => {
+  await menuController.getOneCategory(req, res);
 });
 
 app.get('/orders_history', (req, res) => {

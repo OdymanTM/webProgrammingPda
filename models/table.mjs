@@ -6,10 +6,12 @@ class Table   {
         this.locationInStore = locationInStore; 
     }
 
+    static async isTableAvailable  (name, callback)  {
     
+    }
     
     static async addTable  (name, locationInStore, callback)  {
-        const query = 'INSERT INTO "table" (name, locationInStore) VALUES ($1, $2)'
+        const query = 'INSERT INTO "table" (name, tablelocation) VALUES ($1, $2)'
         try {
             const { rows } = await pool.query(query, [name, locationInStore]);
             callback(null, rows)
@@ -19,7 +21,7 @@ class Table   {
     }
 
     static async getTablesByLocationInStore  (locationInStore, callback)  {
-        const query = 'SELECT * FROM "table" WHERE locationInStore = $1'
+        const query = 'SELECT * FROM "table" WHERE tablelocation = $1'
         try {
             const { rows } = await pool.query(query, [locationInStore]);
             callback(null, rows)
@@ -63,7 +65,7 @@ class Table   {
 
     
     static async updateTableLocation  (name, locationInStore, callback)  {
-        const query = 'UPDATE "table" SET locationInStore = $1 WHERE "name" = $2'
+        const query = 'UPDATE "table" SET tablelocation = $1 WHERE "name" = $2'
         try {
             const { rows } = await pool.query(query, [locationInStore, name]);
             callback(null, rows)
