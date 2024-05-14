@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = process.env.PORT || '3000';
-app.listen(port,'0.0.0.0', () => { console.log(`http://0.0.0.0:${port}`) });
+app.listen(port,'0.0.0.0', () => { console.log(`http://Localhost:${port}`) });
 
 app.engine('hbs', engine({ extname: 'hbs', defaultLayout: 'main', layoutsDir: __dirname + '/views/layouts'}));
 app.set('view engine', 'hbs');
