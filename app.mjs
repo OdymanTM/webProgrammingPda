@@ -17,9 +17,7 @@ app.engine('hbs', engine({ extname: 'hbs', defaultLayout: 'main', layoutsDir: __
 app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
-
-let pageTitle;
-
+/*
 const ordersHistory = {
     "orders": [
       {
@@ -79,9 +77,10 @@ const tables = {
     }
   ]
 }
-
-
-
+*/
+import routes from './routes/routes.mjs';
+app.use('/', routes);
+/*
 app.get('/', (req,res) => {
   res.render('posts', { pageTitle: pageTitle});
 });
@@ -104,3 +103,4 @@ app.get('/tables', (req,res) => {
   res.render('tables', {pageTitle: pageTitle, tables: tables.tables});
 });
 
+*/
