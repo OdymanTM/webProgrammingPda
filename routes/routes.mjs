@@ -1,7 +1,7 @@
 import express from 'express'
 const router = express.Router();
 
-import * as menuController from '../controllers/menu_customer.mjs';
+import * as menuController from '../controllers/menu_worker.mjs';
 const controller = await import(`../controllers/sample_controller.mjs`);
 
 router.get('/', controller.login);

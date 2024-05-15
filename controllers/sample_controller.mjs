@@ -128,7 +128,7 @@ export async function login(req, res){
 
     try{
       pageTitle = 'Login';
-      res.render('login', {pageTitle: pageTitle});
+      res.render('login', {pageTitle: pageTitle, layout: "login_layout"});
     }
     catch(err){
       res.send(err);
