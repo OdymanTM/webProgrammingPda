@@ -1,0 +1,81 @@
+body {
+    font-family: 'Source Code Pro';
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(27,93,107,0.3);
+    text-align: center;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    top:50%;
+    left:50%;
+    margin-left:60px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+input[type="text"],
+input[type="password"] {
+    text-align: center;
+    padding: 10px;
+    margin-top:15px;
+    border-radius: 4px;
+    border:none;
+    background: transparent;
+    font-family: 'Source Code Pro';
+    color: rgba(27,93,107,0.8);
+}
+
+input[type="text"]::placeholder,
+input[type="password"]::placeholder{
+    text-decoration-line: underline;
+    text-decoration-thickness: 4px ;
+    text-decoration-skip-ink: none;
+    text-decoration-color: rgba(27,93,107,1);
+    text-align: center;
+    border: none;
+    color: rgba(27,93,107,0.8);
+    font-family: 'Source Code Pro';
+    font-size:16px;
+}
+
+button {
+    width:60%;
+    padding: 10px;
+    background-color: rgba(27,93,107,1);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin:10px;
+    margin-top: 20px;
+    color:rgba(255,255,255,0.6);
+    font-family: 'Source Code Pro';
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: rgba(27,93,107,0.6);
+}
+
+.logo{
+    border-radius:10px;
+    max-width:40%;
+    height:auto;
+    display:block;
+    margin-left: 115px;
+    margin-right: auto;
+    margin-bottom: 50px;
+}

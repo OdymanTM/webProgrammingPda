@@ -1,3 +1,8 @@
+import bcrypt from 'bcrypt';
+import fs from 'fs';
+
+const users = JSON.parse(fs.readFileSync('users.json', 'utf-8'));
+
 let pageTitle;
 
 const menuCats = 
@@ -119,6 +124,35 @@ const tables = {
   ]
 }
 
+export async function login(req, res){
+
+    try{
+      pageTitle = 'Login';
+      res.render('login', {pageTitle: pageTitle});
+    }
+    catch(err){
+      res.send(err);
+    }
+}
+
+export async function loginToPosts(req, res){
+
+    try{
+      const { username, password } = req.body;
+      const user = users.find(user => user.username === username);
+      if (!user || !bcrypt.compareSync(password, user.password)) {
+        return res.status(401).json({ message: 'Invalid username or password' });
+        res.redirect('/');
+      } 
+      else {
+        req.session.user = user;
+        res.redirect('/posts');
+      }
+    }
+     catch(err){
+      res.send(err);
+     }
+}
 
 export async function posts(req, res){
 

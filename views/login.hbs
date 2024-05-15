@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Page</title>   
+    <link rel="stylesheet" href="/fontawesome/css/solid.css">
+    <link rel="stylesheet" href="/fontawesome/css/fontawesome.css">
+    <link rel="stylesheet" href="/login_style.css">
+    <link href="https://fonts.googleapis.com/css?family=Source Code Pro" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Newsreader" rel="stylesheet">
+</head>
+
+<body>
+    <div>
+        <div>
+            <img class="logo" src="icons\logo.png">
+        </div>
+        <div class="login-container">
+            <form id="login-form" method = "POST">
+                <div class="input-group">
+                    <input type="text" id="username" name="username" required placeholder="username">
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password" name="password" required placeholder="password">
+                </div>
+                <button type="submit">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('#login-form');
+
+            form.addEventListener('submit', async function (event) {
+                event.preventDefault();
+
+                let username = document.querySelector('#username').value;
+                let password = document.querySelector('#password').value;
+
+                try {
+                    const response = await fetch('/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                    });
+
+                    if (response.ok) {
+                        window.location.href = '/posts';
+                    } else {
+                        const responseData = await response.json();
+                        alert(responseData.message);
+                    }
+                } catch (err) {
+                    console.error('Error:', err);
+                }
+            }); 
+
+    </script>
+</body>
+
+</html>
