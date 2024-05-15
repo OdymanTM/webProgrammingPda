@@ -1,35 +1,5 @@
 import pool from './testing_db.mjs';
 
-class BaseDatabase{
-
-    
-    get_user(email){
-
-    }
-
-    set_user(email){
-
-    }
-}
-
-class SQLDatabase extends BaseDatabase{
-
-    get_user(email){
-
-    }
-
-    set_user(email){
-
-    }
-}
-
-class JsonDatabase extends BaseDatabase{
-
-}
-
-class MongoDatabase extends BaseDatabase{
-
-}
 
 database = new MongoDatabase();
 class OrderItem {
