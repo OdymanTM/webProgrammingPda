@@ -6,8 +6,19 @@ class Table   {
         this.locationInStore = locationInStore; 
     }
 
-    static async isTableAvailable  (name, callback)  {
-    
+    static async isTableAvailable  (tableid, callback)  {
+        const query = 'SELECT * FROM "order" WHERE "tableid" = $1 order by "timeExecuted" desc limit 1'
+        try {
+            const { rows } = await pool.query(query, [tableid]);
+            if (rows[0].status == 'Paid') {
+                callback(null, true)
+            } else {
+                callback(null, false)
+            }
+          } catch (err) {
+            callback(err, null)
+          }
+      
     }
     
     static async addTable  (name, locationInStore, callback)  {
@@ -75,5 +86,7 @@ class Table   {
     }
 
 }
-
+Table.isTableAvailable(1, (err, res) => {
+    console.log(res,err)
+})
 export default Table;

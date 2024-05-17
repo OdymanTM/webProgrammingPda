@@ -1,7 +1,4 @@
 import pool from './testing_db.mjs';
-
-
-database = new MongoDatabase();
 class OrderItem {
     constructor(orderid, timeExcecuted, isCustomerOrder, totalOrderCost, ) {
         this.id = id;
@@ -10,7 +7,7 @@ class OrderItem {
     }
 
     static async getOrdersOfCustomer(customeremail, callback) {
-        const query = 'select * from "order" as o, "editsORcreates" as e where e."orderId"  = e."orderId" and e."customerEmail" = $1;'
+        const query = 'select distinct o."totalOrderCost" ,o."timeExecuted" ,o."isCustomerOrder" ,o.status ,o.tableid, o.customeremail from "order" as o where o.customeremail = $1;'
         try {
             const { rows } = await pool.query(query, [customeremail]);
             callback(null, rows)
@@ -29,34 +26,46 @@ class OrderItem {
 
     }
 
-    
+    static async getOrderItems(orderid, callback) {
+      const query = `select a.id ,a."comment" ,a.isonthehouse ,a."size" ,a.customeremail ,a.menuitemid ,a.menuitemid ,a.workerusername  from "order" as o, "orderAddition" as e, "addition" as a where e."orderId"  = o."orderId" and e.additionid = a.id and o."orderId" = $1;`
+      try {
+        const { rows } = await pool.query(query, [orderid]);
+        callback(null, rows)
+      } catch (err) {
+        callback(err, null)
+      }
+    }
 
-    static async initiateOrder(customeremail, tableid, items, workerUsername=null, callback) {
-        if (workerUsername == null) {
-            const query = `INSERT INTO "order" ("isCustomerOrder", "status", "timeExecuted", "tableid") VALUES (true, \'Not Ready\', to_timestamp(${Date.now()} / 1000.0), $1) RETURNING "orderId"`
-            const query2 = 'INSERT INTO "editsORcreates" ("customerEmail", "orderId", "menuItemId","comment","isOnTheHouse","quantity","size") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *'
-            try {
-                const {rows} = await pool.query(query, [tableid]);
-                const id = rows[0].orderId;
-                console.log(id);
-                let lastId = 0;
-                for(let item of items){
-                    lastId = await pool.query(query2, [customeremail, id, item.id, item.comment, item.isOnTheHouse, item.quantity, item.size]).rows;
-                }
-                
-                callback(null, lastId)
-              } catch (err) {
-                callback(err, null)
-              }
-        } else {    
-            const query = 'INSERT INTO "editsORcreates" (workerusername) VALUES ($1) RETURNING id'
-            try {
-                const { rows } = await pool.query(query, [workerUsername]);
-                callback(null, rows[0].id)
-              } catch (err) {
-                callback(err, null)
-              }
-        }
+    static async addOrderItems(orderid, items, customerEmail=null, workerUsername=null,callback) {
+      let query = `INSERT INTO "addition" ("workerusername","customeremail", "menuitemid","comment","isonthehouse","size") VALUES  ($1, $2, $3, $4, $5, $6) RETURNING *`
+      let query1 = `INSERT INTO "orderAddition" ("orderId", "additionid") VALUES  (${orderid}, $1) RETURNING *`
+      const client = await pool.connect();
+      try {
+        await client.query('BEGIN');  
+        let lastRow = '';      
+        for(let item of items) {
+                  for (let i = 0; i < item.quantity; i++){
+                    lastRow = await client.query(query, [workerUsername, customerEmail,item.id ,item.comment, item.isOnTheHouse, item.size]);
+                    await client.query(query1, [lastRow.rows[0].id]).rows;
+              }}
+              await client.query('COMMIT');
+        callback(null, lastRow.rows)
+      } catch (err) {
+        await client.query('ROLLBACK'); 
+        callback(err, null);
+      }finally {
+        client.release();
+      }
+    }
+
+    static async initiateOrder(tableid,isCustomerOrder , callback) {
+      const query = `INSERT INTO "order" ("isCustomerOrder", "status", "timeExecuted", "tableid") VALUES (${isCustomerOrder}, \'Not Ready\', to_timestamp(${Date.now()} / 1000.0), $1) RETURNING "orderId"`
+      try {
+        const { rows } = await pool.query(query, [tableid]);
+        callback(null, rows)
+      } catch (err) {
+        callback(err, null)
+      }
     }
 }
 
@@ -75,7 +84,8 @@ let items = [{
     size: "2"
 },
 ];
-//OrderItem.initiateOrder("palamaris02@gmail.com", 1, items, null, (err, data) => { console.log(data) });
-OrderItem.updateOrderStatus(1, 'Ready for service', (err, data) => { console.log(data, err) });
-
+//OrderItem.getOrderItems(16, (err, data) => { console.log(data, err) });
+//OrderItem.addOrderItems(16,items, "palamaris02@gmail.com" ,null, (err, data) => { console.log(data, err) });
+//OrderItem.initiateOrder(1, true, (err, data) => { console.log(data, err) });
+//OrderItem.getOrdersOfCustomer("palamaris02@gmail.com", (err, data) => { console.log(data, err) });
 export default OrderItem;
