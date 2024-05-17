@@ -4,8 +4,6 @@ mockups: https://www.figma.com/file/1MOShstMXPKvAKhmJuUU5J/Webprogramming?type=d
 
 # rise and grind
 
-Παράδειγμα μιας απλής εφαρμογής express.js.
-
 Πρώτα κατεβάστε τα πακέτα node με `npm install`.
 
 Τρέξτε έπειτα `npm audit fix --force`
