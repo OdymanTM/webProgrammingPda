@@ -1,7 +1,11 @@
 import bcrypt from 'bcrypt';
 import fs from 'fs';
+import * as loginController from '../controllers/worker_login.mjs';
 
 const users = JSON.parse(fs.readFileSync('users.json', 'utf-8'));
+
+//const usernames = loginController.getAllWorkersUsernames();
+//const passwords = loginController.getAllWorkersPasswords();
 
 let pageTitle;
 
@@ -134,6 +138,25 @@ export async function login(req, res){
       res.send(err);
     }
 }
+/*
+export async function loginToPosts(req,res){
+    try{
+      const {username, password} = req.body;
+      const userIndex = usernames.findIndex(username);
+      
+      if (userIndex === -1 || !bcrypt.compareSync(password, passwords[userIndex])) {
+        return res.status(401).json({ message: 'Invalid username or password' });
+      }
+      else{
+      const user = { username: usernames[userIndex], password: passwords[userIndex] };
+      req.session.user = user;
+      await posts(req,res);
+      }
+    } 
+    catch (err) {
+      res.send(err);
+    }
+}*/
 
 export async function loginToPosts(req, res){
 
@@ -142,16 +165,17 @@ export async function loginToPosts(req, res){
       const user = users.find(user => user.username === username);
       if (!user || !bcrypt.compareSync(password, user.password)) {
         return res.status(401).json({ message: 'Invalid username or password' });
-        res.redirect('/');
       } 
       else {
         req.session.user = user;
+        console.log('User authenticated successfully:', user);
         res.redirect('/posts');
       }
     }
-     catch(err){
+    catch(err){
+      console.error('Error during login:', err);
       res.send(err);
-     }
+    }
 }
 
 export async function posts(req, res){
