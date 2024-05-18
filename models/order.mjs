@@ -77,14 +77,14 @@ let items = [{
     size: "1"
 },
 {
-    id: 3,
+    id: 2,
     comment: "I want it bad",
     isOnTheHouse: false,
     quantity: 1,
     size: "2"
 },
 ];
-let id;
+let id = 28;
 //OrderItem.getOrderItems(16, (err, data) => { console.log(data, err) });
 //await OrderItem.initiateOrder(1, true, 'palamaris02@gmail.com',(err, data) => { 
 //  id = data[0].orderId;

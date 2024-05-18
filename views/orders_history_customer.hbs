@@ -5,28 +5,19 @@
         {{#each orders}}
         <div class = "order">
             <div class = "total">
-                Total:<br><p class = "price">{{price}}</p>
+                Total:<br><p class = "price">{{totalOrderCost}}€</p>
             </div>
             <div class = "right-bar">
                 <div class = "table-and-date">
                     <div class = "receipt"><img src="./images/receipt.png"></div>
-                    <div>{{table}}<br>{{date}}</div>
+                    <div>{{status}}<br>{{timeExecuted}}</div>
                 </div>
-                {{#if status}}
-                <div class = "payment-status">
-                    {{status}}
-                </div>
-                {{/if}}
             </div>
         </div>  
         <div class="inbetween-separator">
             <hr>
         </div>
         {{/each}}
-    </div>
-
-    <div class="settings">
-        <button class="button"><img src="https://storage.cloud.google.com/imageswebprogramming/publicImages/settings.png"></button>
     </div>
     <div class="end-separator">
         <hr>
