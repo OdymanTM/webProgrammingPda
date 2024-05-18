@@ -35,7 +35,7 @@ const ordersHistory = {
 
 async function getOrdersHistory (req, res) {
     let pageTitle = 'Orders History';
-    OrderItem.getOrdersOfCustomer('palamaris', (err, orders) => {console.log(err, orders)});
+    OrderItem.getOrdersOfCustomer('palamaris02@gmail.com', (err, orders) => {console.log(err, orders)});
     res.render('orders_history_customer', {layout: 'main_customer' ,pageTitle: pageTitle, orders: ordersHistory.orders});
 }
 

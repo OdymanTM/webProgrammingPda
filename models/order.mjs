@@ -58,10 +58,10 @@ class OrderItem {
       }
     }
 
-    static async initiateOrder(tableid,isCustomerOrder , callback) {
-      const query = `INSERT INTO "order" ("isCustomerOrder", "status", "timeExecuted", "tableid") VALUES (${isCustomerOrder}, \'Not Ready\', to_timestamp(${Date.now()} / 1000.0), $1) RETURNING "orderId"`
+    static async initiateOrder(tableid, isCustomerOrder, customerEmail , callback) {
+      const query = `INSERT INTO "order" ("isCustomerOrder", "status", "timeExecuted", "tableid", "customeremail") VALUES (${isCustomerOrder}, \'Not Ready\', to_timestamp(${Date.now()} / 1000.0), $1, $2) RETURNING "orderId"`
       try {
-        const { rows } = await pool.query(query, [tableid]);
+        const { rows } = await pool.query(query, [tableid, customerEmail]);
         callback(null, rows)
       } catch (err) {
         callback(err, null)
@@ -84,8 +84,12 @@ let items = [{
     size: "2"
 },
 ];
+let id;
 //OrderItem.getOrderItems(16, (err, data) => { console.log(data, err) });
-//OrderItem.addOrderItems(16,items, "palamaris02@gmail.com" ,null, (err, data) => { console.log(data, err) });
-//OrderItem.initiateOrder(1, true, (err, data) => { console.log(data, err) });
+//await OrderItem.initiateOrder(1, true, 'palamaris02@gmail.com',(err, data) => { 
+//  id = data[0].orderId;
+//  console.log(data, err) 
+//});
+//await OrderItem.addOrderItems(id,items, "palamaris02@gmail.com" ,null, (err, data) => { console.log(data, err) });
 //OrderItem.getOrdersOfCustomer("palamaris02@gmail.com", (err, data) => { console.log(data, err) });
 export default OrderItem;
