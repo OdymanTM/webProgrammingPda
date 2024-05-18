@@ -31,6 +31,17 @@ class Table   {
           }
     }
 
+    static async getAllTables (callback) {
+        const query = 'SELECT * FROM "table" order by "locationInStore"'
+        try{
+          const { rows } = await pool.query(query);
+          callback(null, rows)
+        }
+        catch(err){
+          callback(err,null)
+        }
+    }
+
     static async getTablesByLocationInStore  (locationInStore, callback)  {
         const query = 'SELECT * FROM "table" WHERE tablelocation = $1'
         try {

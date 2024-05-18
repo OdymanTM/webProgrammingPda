@@ -139,6 +139,9 @@ export async function login(req, res){
     }
 }
 /*
+
+*code for the login screen using the database 
+
 export async function loginToPosts(req,res){
     try{
       const {username, password} = req.body;

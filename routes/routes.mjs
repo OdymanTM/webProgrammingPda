@@ -3,18 +3,19 @@ const router = express.Router();
 
 import * as menuControllerCustomer from '../controllers/menu_customer.mjs';
 import * as menuController from '../controllers/menu_worker.mjs';
-import * as ordersHistoryController from '../controllers/orders_history.mjs';
+import * as ordersHistoryController from '../controllers/orders_history_worker.mjs';
+import * as tablesController from '../controllers/tables_worker.mjs';
 
 const controller = await import(`../controllers/sample_controller.mjs`);
 
 router.get('/', controller.login);
 router.post('/',controller.loginToPosts);
 router.get('/posts', controller.posts);
-router.get('/menu', menuControllerCustomer.getMenu);
-router.get('/menu/:category', menuControllerCustomer.getOneCategory);
+router.get('/menu', menuController.getMenu);
+router.get('/menu/:category', menuController.getOneCategory);
 router.get('/orders_history', ordersHistoryController.getOrdersHistory);
-router.get('/tables', controller.tablesInit);
-router.get('/tables/:sector', controller.tablesSector);
+router.get('/tables', tablesController.getTables);
+router.get('/tables/:sector', tablesController.getOneLocation);
 
 export default router;
 
