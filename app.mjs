@@ -30,5 +30,7 @@ app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
 
-import routes from './routes/routes.mjs';
-app.use('/', routes);
+import worker_routes from './routes/worker.mjs';
+import customer_routes from './routes/customer.mjs';
+app.use('/', customer_routes);
+app.use('/worker', worker_routes);
