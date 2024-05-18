@@ -3,24 +3,24 @@ import menuItem from '../models/menuItem.mjs';
 async function getMenu (req, res) {
     const pageTitle = 'Menu';
     await menuItem.getAllMenuItems(async (err, items) => {
-    await menuItem.getAvailableCategories((err, categories) => {
-    if (err) {
+      await menuItem.getAvailableCategories((err, categories) => {
+      if (err) {
         console.log(err);
-      res.status(500).send('Error reading menu items');
-    } else {
-        const groupedItems = items.reduce((acc, item) => {
-            // Initialize the category array if it doesn't already exist
-            if (!acc[item.category]) {
-                acc[item.category] = [];
-            }
-            // Push the item to the category array
-            acc[item.category].push(item);
-            return acc;
-        }, {});
-      res.render('menu', {layout: "main", pageTitle: pageTitle, menuCats: categories, chosenCat: '', items: groupedItems });
-    }
+        res.status(500).send('Error reading menu items');
+      } else {
+          const groupedItems = items.reduce((acc, item) => {
+              // Initialize the category array if it doesn't already exist
+              if (!acc[item.category]) {
+                  acc[item.category] = [];
+              }
+              // Push the item to the category array
+              acc[item.category].push(item);
+              return acc;
+          }, {});
+        res.render('menu', {layout: "main", pageTitle: pageTitle, menuCats: categories, chosenCat: '', items: groupedItems });
+      }
+      });
     });
-  })
 }
 
 async function getOneCategory (req, res) {
