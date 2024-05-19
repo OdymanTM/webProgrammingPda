@@ -36,7 +36,7 @@
                     });
 
                     if (response.ok) {
-                        window.location.href = '/posts';
+                        window.location.href = '/menu';
                     } else {
                         const responseData = await response.json();
                         alert(responseData.message);
@@ -45,5 +45,6 @@
                     console.error('Error:', err);
                 }
             }); 
+        });
 
     </script>

@@ -1,39 +1,30 @@
 import Worker from '../models/workers.mjs';
+import jwt from 'jsonwebtoken';
 
-async function getAllWorkersUsernames (req, res){
-    await Worker.getWorkersUsernames(async (err, workers) => {
-        if (err){
-            console.log(err);
-            res.status(500).send('Error reading workers data');
-        }
-        else{
-            workers.reduce((acc, user) => {
-                if (!acc[user.username]) {
-                    acc[user.username] = [];
-                }
-                acc[user.username].push(user);
-                return acc;
-            }, {});
-        }
-    })
+
+export async function login(req, res){
+    let pageTitle = 'Login';
+    res.render('login', {pageTitle: pageTitle, layout: "login_layout"});
 }
 
-async function getAllWorkersPasswords (req, res){
-    await Worker.getWorkersPasswords(async (err, workers) => {
-        if (err){
-            console.log(err);
-            res.status(500).send('Error reading workers data');
-        }
-        else{
-            workers.reduce((acc, user) => {
-                if (!acc[user.password]){
-                    acc[user.password] = [];
-                }
-                acc[user.password].push(user);
-                return acc;
-            }, {});
-        }
-    })
-}
 
-export { getAllWorkersUsernames, getAllWorkersPasswords };
+export async function loginToPosts(req, res){
+    try{
+      console.log('Login attempt:', req.body);
+      const { username, password } = req.body;
+      Worker.validateWorker(username, password,async (err, ress) => {
+      if (ress == false) {
+        console.log('Invalid username or password');
+      } 
+      else {
+        const token = jwt.sign({ id: username }, 'omada22', { expiresIn: '1h' });
+        req.session.token = token;
+        console.log('User authenticated successfully:', token);
+        res.redirect('/menu');
+      }});
+    }
+    catch(err){
+      console.log('Error during login:', err);
+      res.send(err);
+    }
+    }
