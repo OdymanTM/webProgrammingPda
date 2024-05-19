@@ -1,0 +1,29 @@
+    <div class="items">
+        {{#each items}}
+        <div class="item" id={{id}}>
+            <p class="text-content">{{name}}  {{quantity}}</p>
+            <div class="desc-and-price">
+                <p class="desc">{{description}}</p>
+                <p class="price">{{price}} €</p>
+            </div>
+        </div>
+        <div class="inbetween-separator">
+            <hr>
+        </div>
+        {{/each}}
+    </div>
+    <div class="end-separator">
+        <hr>
+    </div>
+    
+
+    <script>
+        function redirectToMenu(category) {
+            if (category !== 0) {
+            window.location.href = "/menu/" + category;    
+            }
+            else {
+                window.location.href = "/menu";
+            }
+        }
+    </script>

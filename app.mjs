@@ -1,34 +1,41 @@
 import express from 'express';
 import session from 'express-session';
+import FileStore from 'session-file-store';
 import { engine } from 'express-handlebars';
 import path from 'path';
-import * as menuController from './controllers/menu_customer.mjs';
-import menuItem  from './models/menuItem.mjs';
+
 import { fileURLToPath } from 'url';
-import e from 'express';
-import { get } from 'http';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-
-app.use(session({
-  secret:"omada22",
-  resave:false,
-  saveUninitialized: true,
-  cookie: { secure: false } // Set secure to true if using HTTPS
-}));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-
+app.use(express.static(path.join(__dirname, 'public')));
 const port = process.env.PORT || '3000';
 app.listen(port,'0.0.0.0', () => { console.log(`http://Localhost:${port}`) });
 
 app.engine('hbs', engine({ extname: 'hbs', defaultLayout: 'main', layoutsDir: __dirname + '/views/layouts'}));
 app.set('view engine', 'hbs');
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
+
+const FileStoreSession = FileStore(session);
+app.use(session({
+  store: new FileStoreSession({ path: './sessions' }),
+  secret:"omada22",
+  resave:false,
+  saveUninitialized: true,
+  cookie: { secure: false , maxAge: 1000 * 60 * 60 * 24 * 7} 
+}));
+
+app.use((req, res, next) => {
+  //console.log(req.session);
+  next();
+});
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
 
 import worker_routes from './routes/worker.mjs';
 import customer_routes from './routes/customer.mjs';

@@ -37,7 +37,7 @@ class OrderItem {
     }
 
     static async addOrderItems(orderid, items, customerEmail=null, workerUsername=null,callback) {
-      let query = `INSERT INTO "addition" ("workerusername","customeremail", "menuitemid","comment","isonthehouse","size") VALUES  ($1, $2, $3, $4, $5, $6) RETURNING *`
+      let query = `INSERT INTO "addition" ("workerusername","customeremail", "menuitemid","comment","isonthehouse",) VALUES  ($1, $2, $3, $4, $5) RETURNING *`
       let query1 = `INSERT INTO "orderAddition" ("orderId", "additionid") VALUES  (${orderid}, $1) RETURNING *`
       const client = await pool.connect();
       try {
@@ -45,7 +45,7 @@ class OrderItem {
         let lastRow = '';      
         for(let item of items) {
                   for (let i = 0; i < item.quantity; i++){
-                    lastRow = await client.query(query, [workerUsername, customerEmail,item.id ,item.comment, item.isOnTheHouse, item.size]);
+                    lastRow = await client.query(query, [workerUsername, customerEmail,item.id ,item.comment, item.isOnTheHouse]);
                     await client.query(query1, [lastRow.rows[0].id]).rows;
               }}
               await client.query('COMMIT');
@@ -74,14 +74,12 @@ let items = [{
     comment: "I want it",
     isOnTheHouse: false,
     quantity: 2,
-    size: "1"
 },
 {
     id: 2,
     comment: "I want it bad",
     isOnTheHouse: false,
     quantity: 1,
-    size: "2"
 },
 ];
 let id = 28;
