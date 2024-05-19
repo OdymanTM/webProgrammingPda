@@ -1,8 +1,7 @@
 import pool from './testing_db.mjs';
 
 class Worker   {
-    constructor(id, username, name, isAdmin, totalHours, password) {
-        this.id = id;
+    constructor(username, name, isAdmin, totalHours, password) {
         this.username = username;
         this.name = name;
         this.isAdmin = isAdmin;
@@ -21,16 +20,15 @@ class Worker   {
         }
     }
 
-    static async getWorkersPasswords (callback){
-        const query = 'SELECT password FROM "worker"';
+    static async getWorkersPassword (username,callback){
+        const query = 'SELECT password FROM "worker" where username = $1';
         try{
-            const { rows } = await pool.query(query);
+            const { rows } = await pool.query(query, [username]);
             callback(null, rows);
         }
         catch(err){
             callback(err, null);
-        }
-    }
-}
-
+        }}
+}//defaultworker 12345678
+//Worker.getWorkersPassword("defaultworker",(err, res) => {  console.log(res); });
 export default Worker;
