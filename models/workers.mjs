@@ -37,16 +37,6 @@ class Worker   {
         }
     }
 
-    static async getWorkersPassword (username,callback){
-        const query = 'SELECT password FROM "worker" where username = $1';
-        try{
-            const { rows } = await pool.query(query, [username]);
-            callback(null, rows);
-        }
-        catch(err){
-            callback(err, null);
-        }}
-
     static async validateWorker (username, password, callback){
         const query = 'SELECT password FROM "worker" where username = $1';
         try{

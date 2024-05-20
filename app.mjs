@@ -3,7 +3,6 @@ import session from 'express-session';
 import FileStore from 'session-file-store';
 import { engine } from 'express-handlebars';
 import path from 'path';
-
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -16,25 +15,18 @@ app.listen(port,'0.0.0.0', () => { console.log(`http://Localhost:${port}`) });
 
 app.engine('hbs', engine({ extname: 'hbs', defaultLayout: 'main', layoutsDir: __dirname + '/views/layouts'}));
 app.set('view engine', 'hbs');
-app.use(express.urlencoded({ extended: false }));
 
 const FileStoreSession = FileStore(session);
 app.use(session({
   store: new FileStoreSession({ path: './sessions' }),
   secret:"omada22",
   resave:false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: { secure: false , maxAge: 1000 * 60 * 60 * 24 * 7} 
 }));
 
-app.use((req, res, next) => {
-  //console.log(req.session);
-  next();
-});
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 
 
 import worker_routes from './routes/worker.mjs';
