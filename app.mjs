@@ -4,6 +4,8 @@ import FileStore from 'session-file-store';
 import { engine } from 'express-handlebars';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import passport from 'passport';
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,11 +21,15 @@ app.set('view engine', 'hbs');
 const FileStoreSession = FileStore(session);
 app.use(session({
   store: new FileStoreSession({ path: './sessions' }),
-  secret:"omada22",
-  resave:false,
+  secret: "omada22",
+  resave: false,
   saveUninitialized: false,
-  cookie: { secure: false , maxAge: 1000 * 60 * 60 * 24 * 7} 
+  cookie: { secure: false, maxAge: 1000 * 60 * 60 * 24 * 7 },
+  name: "customer_sid"
 }));
+app.use((req, res, next) => {console.log(req.session); next();});
+
+app.use(passport.initialize());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

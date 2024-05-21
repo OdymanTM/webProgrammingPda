@@ -37,7 +37,7 @@ class OrderItem {
     }
 
     static async addOrderItems(orderid, items, customerEmail=null, workerUsername=null,callback) {
-      let query = `INSERT INTO "addition" ("workerusername","customeremail", "menuitemid","comment","isonthehouse",) VALUES  ($1, $2, $3, $4, $5) RETURNING *`
+      let query = `INSERT INTO "addition" ("workerusername","customeremail", "menuitemid","comment","isonthehouse") VALUES  ($1, $2, $3, $4, $5) RETURNING *`
       let query1 = `INSERT INTO "orderAddition" ("orderId", "additionid") VALUES  (${orderid}, $1) RETURNING *`
       const client = await pool.connect();
       try {
@@ -45,8 +45,12 @@ class OrderItem {
         let lastRow = '';      
         for(let item of items) {
                   for (let i = 0; i < item.quantity; i++){
+                    if (item.isOnTheHouse == undefined) {
+                      item.isOnTheHouse = false;
+                    }
                     lastRow = await client.query(query, [workerUsername, customerEmail,item.id ,item.comment, item.isOnTheHouse]);
-                    await client.query(query1, [lastRow.rows[0].id]).rows;
+                    
+                    await client.query(query1, [lastRow.rows[0].id]);
               }}
               await client.query('COMMIT');
         callback(null, lastRow.rows)
@@ -59,7 +63,7 @@ class OrderItem {
     }
 
     static async initiateOrder(tableid, isCustomerOrder, customerEmail , callback) {
-      const query = `INSERT INTO "order" ("isCustomerOrder", "status", "timeExecuted", "tableid", "customeremail") VALUES (${isCustomerOrder}, \'Not Ready\', to_timestamp(${Date.now()} / 1000.0), $1, $2) RETURNING "orderId"`
+      const query = `INSERT INTO "order" ("isCustomerOrder", "status", "timeExecuted", "tableid", "customeremail") VALUES (${isCustomerOrder}, \'Not Ready\', current_timestamp, $1, $2) RETURNING "orderId"`
       try {
         const { rows } = await pool.query(query, [tableid, customerEmail]);
         callback(null, rows)
@@ -69,20 +73,20 @@ class OrderItem {
     }
 }
 
-let items = [{
-    id: 1,
-    comment: "I want it",
-    isOnTheHouse: false,
-    quantity: 2,
-},
-{
-    id: 2,
-    comment: "I want it bad",
-    isOnTheHouse: false,
-    quantity: 1,
-},
-];
-let id = 28;
+// let items = [{
+//     id: 1,
+//     comment: "I want it",
+//     isOnTheHouse: false,
+//     quantity: 2,
+// },
+// {
+//     id: 2,
+//     comment: "I want it bad",
+//     isOnTheHouse: false,
+//     quantity: 1,
+// },
+// ];
+//let id;
 //OrderItem.getOrderItems(16, (err, data) => { console.log(data, err) });
 //await OrderItem.initiateOrder(1, true, 'palamaris02@gmail.com',(err, data) => { 
 //  id = data[0].orderId;

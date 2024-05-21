@@ -10,15 +10,17 @@ class Table   {
         const query = 'SELECT * FROM "order" WHERE "tableid" = $1 order by "timeExecuted" desc limit 1'
         try {
             const { rows } = await pool.query(query, [tableid]);
-            if (rows[0].status == 'Paid') {
-                callback(null, true)
+            if (rows.length == 0) {
+              callback(null, true)
+            } else if (rows[0].status == 'Paid' || rows[0].status == 'Cancelled') {
+              callback(null, true)
+             
             } else {
-                callback(null, false)
+              callback(null, false)
             }
           } catch (err) {
             callback(err, null)
           }
-      
     }
     
     static async addTable  (name, locationInStore, callback)  {
