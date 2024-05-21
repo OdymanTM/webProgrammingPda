@@ -31,7 +31,7 @@ class Worker   {
             callback(err, null);
         }
     }
-
+    /*
     static async registerUser (username, password, name, callback){
         const usernameExists = await this.isUsernameTaken(username);
         if (usernameExists === true){
@@ -47,7 +47,7 @@ class Worker   {
                 throw err;
             }
         }
-    }
+    }*/
 
     static async isUsernameTaken (username, callback){
         const query = 'SELECT username FROM "worker" where username = $1';

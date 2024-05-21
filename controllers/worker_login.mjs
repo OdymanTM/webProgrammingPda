@@ -1,18 +1,17 @@
-import Worker from '../models/workers.mjs';
+import worker from '../models/workers.mjs';
 import jwt from 'jsonwebtoken';
-
+import bcrypt from 'bcrypt';
 
 export async function login(req, res){
     let pageTitle = 'Login';
     res.render('login', {pageTitle: pageTitle, layout: "login_layout"});
 }
 
-
 export async function loginToPosts(req, res, next){
   console.log('Login attempt:', req.body);
     try{
       const { username, password } = req.body;
-      Worker.validateWorker(username, password,async (err, ress) => {
+      worker.validateWorker(username, password,async (err, ress) => {
       if (ress == false) {
         console.log('Invalid username or password');
       } 
@@ -67,11 +66,51 @@ export async function registerToLogin(req,res){
     console.log('Error during login:', err);
     throw err;
   }*/
-
+/*
   try {
-    const registrationResult = await userModel.registerUser(req.body.username, req.body.password);
+    const { username, password, name } = req.body;
+    const usernameExists = await worker.isUsernameTaken(username);
+    if (usernameExists) {
+      res.render('register', { layout: "login_layout", message: 'Username already taken' });
+    } else {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      await worker.addWorker(username, name, false, 0, hashedPassword);
+      res.redirect('/login');
+    }
+  } catch (error) {
+    console.error('Registration error: ' + error);
+    //res.render('register', { layout: "login_layout", message: 'Registration failed, please try again' });
+  }*/
+
+  const { username, password, name } = req.body;
+    worker.isUsernameTaken(username, (err, usernameExists) => {
+        if (err) {
+            console.error('Registration error: ' + err);
+            return res.render('register', { layout: "login_layout", message: 'Registration failed, please try again' });
+        }
+        else if (usernameExists) {
+            return res.render('register', { layout: "login_layout", message: 'Username already taken' });
+        }
+        bcrypt.hash(password, 10, (err, hashedPassword) => {
+            if (err) {
+                console.error('Hashing error: ' + err);
+                return res.render('register', { layout: "login_layout", message: 'Registration failed, please try again' });
+            }
+            worker.addWorker(username, name, false, 0, hashedPassword, (err, worker) => {
+                if (err) {
+                    console.error('Registration error: ' + err);
+                    return res.render('register', { layout: "login_layout", message: 'Registration failed, please try again' });
+                }
+                res.redirect('/worker/login');
+            });
+        });
+    });
+
+/*
+  try {
+    const registrationResult = await worker.registerUser(req.body.username, req.body.password);
     if (registrationResult.message) {
-        res.render('register-password', { message: registrationResult.message })
+        res.render('register', { layout:"login_layout", message: registrationResult.message })
     }
     else {
         res.redirect('/login');
@@ -79,12 +118,20 @@ export async function registerToLogin(req,res){
 } catch (error) {
     console.error('registration error: ' + error);
     //FIXME: δε θα έπρεπε να περνάμε το εσωτερικό σφάλμα στον χρήστη
-    res.render('register-password', { message: error });
+    res.render('register', { layout:"login_layout", message: error });
+}*/
 }
 
+export async function posts(req, res){
 
+  try{
+      pageTitle = 'Posts';
+      res.render('posts', { pageTitle: pageTitle});
+  }
+  catch(err){
+      res.send(err);
+  }
 }
-
 /*
 
 export let doRegister = async function (req, res) {

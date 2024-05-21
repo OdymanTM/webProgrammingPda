@@ -9,7 +9,9 @@ import * as worker_controller from '../controllers/worker_login.mjs';
 
 worker_routes.get('/', worker_controller.login);
 worker_routes.post('/',worker_controller.loginToPosts);
-//worker_routes.get('/posts', worker_controller.posts);
+worker_routes.get('/register', worker_controller.register);
+worker_routes.post('/register', worker_controller.registerToLogin);
+worker_routes.get('/posts', worker_controller.authenticateToken, worker_controller.posts);
 worker_routes.get('/menu',worker_controller.authenticateToken, menuController.getMenu);
 worker_routes.get('/menu/:category',worker_controller.authenticateToken, menuController.getOneCategory);
 worker_routes.get('/orders_history',worker_controller.authenticateToken, ordersHistoryController.getOrdersHistory);

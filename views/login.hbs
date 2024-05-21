@@ -11,23 +11,19 @@
                 <div class="input-group">
                     <input type="password" id="password" name="password" required placeholder="password">
                 </div>
-                <button type="submit">Sign In</button>
-                <button type="register">Sign Up</button>
+                <button type="submit" class = "submit">Sign In</button>
             </form>
+            <button class = "register" onclick = "openRegister()">Sign Up</button>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const form = document.querySelector('#login-form');
+        function openRegister(){
+            window.location.href = '/worker/register';
+        }
 
-            form.addEventListener('register', async function (event) {
-                window.location.href = '/register';
-            }
-    </script>
-
-    <script>
         document.addEventListener('DOMContentLoaded', function () {
+
             const form = document.querySelector('#login-form');
 
             form.addEventListener('submit', async function (event) {
@@ -46,7 +42,7 @@
                     });
 
                     if (response.ok) {
-                        window.location.href = '/menu';
+                        window.location.href = '/worker/menu';
                     } else {
                         const responseData = await response.json();
                         alert(responseData.message);

@@ -5,6 +5,9 @@ import * as menuController from '../controllers/menu_customer.mjs';
 import * as ordersHistoryController from '../controllers/orders_history.mjs';
 import * as basketController from '../controllers/basket.mjs';
 
+customer_routes.get('/', (req,res) => {
+  res.redirect('/menu');
+})
 customer_routes.get('/menu', menuController.getMenu);
 customer_routes.get('/menu/:category', menuController.getOneCategory);
 customer_routes.get('/orders_history', ordersHistoryController.getOrdersHistory);
