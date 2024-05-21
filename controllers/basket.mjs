@@ -1,3 +1,4 @@
+import OrderItem from '../models/order.mjs';
 
 export async function getBasket (req, res) {
     const pageTitle = 'Basket';
@@ -11,7 +12,19 @@ export async function addToBasket (req, res) {
   item.price = parseFloat(req.body.price);
   req.session.basket = req.session.basket || []; 
   req.session.basket.push(item);
-  //console.log(item);
-  //console.log(req.session);
   res.redirect('/menu');}
+  
+
+export async function sendOrder (req, res) {
+  let items = req.session.basket;
+  let email = req.session.passport.user;
+  OrderItem.addOrder(user, order, (err, ress) => {
+    if (err) {
+      console.log(err);
+    } else {
+      req.session.basket = [];
+      res.redirect('/menu');
+    }
+  });
+}
 

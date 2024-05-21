@@ -1,29 +1,45 @@
-    <div class="items">
-        {{#each items}}
-        <div class="item" id={{id}}>
-            <p class="text-content">{{name}}  {{quantity}}</p>
-            <div class="desc-and-price">
-                <p class="desc">{{description}}</p>
-                <p class="price">{{price}} €</p>
-            </div>
+<div class="items">
+    {{#each items}}
+    <div class="item" id={{id}}>
+        <p class="text-content">{{name}}  {{quantity}}</p>
+        <div class="desc-and-price">
+            <p class="desc">{{description}}</p>
+            <p class="price">{{price}} €</p>
         </div>
-        <div class="inbetween-separator">
-            <hr>
-        </div>
-        {{/each}}
     </div>
-    <div class="end-separator">
+    <div class="inbetween-separator">
         <hr>
     </div>
+    {{/each}}
+</div>
+<button  class="btn btn-primary" style="background-color: rgba(27,93,107,1);" id="submitorder">Submit Order</button>
+<div class="end-separator">
+    <hr>
+</div>
     
 
-    <script>
-        function redirectToMenu(category) {
-            if (category !== 0) {
-            window.location.href = "/menu/" + category;    
-            }
-            else {
-                window.location.href = "/menu";
-            }
-        }
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('#submitorder');
+
+            form.addEventListener('click', async function (event) {
+                try {
+                    const response = await fetch('/basket/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    }); 
+                    if (response.status == 200) {
+                        console.log(response.body);
+                        alert(await response.text());
+                    } else {
+                        alert(await response.text());
+                    }
+                } catch (err) {
+                    console.error('Error:', err);
+                }
+            }); 
+        });
+
     </script>

@@ -7,9 +7,11 @@ import * as basketController from '../controllers/basket.mjs';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import Customer from '../models/customer.mjs';
+import * as orderController from '../controllers/order.mjs';
 
 let basket;
 let token;
+let table;
 
 customer_routes.use(
     (req, res, next) => {
@@ -26,14 +28,17 @@ customer_routes.use(
 customer_routes.get('/', (req, res) => {
   res.redirect('/menu');
 });
+customer_routes.get('/menu/:tableid', orderController.tableCheck);
 customer_routes.get('/menu', menuController.getMenu);
 customer_routes.get('/menu/:category', menuController.getOneCategory);
 customer_routes.get('/orders_history', ordersHistoryController.getOrdersHistory);
 customer_routes.get('/basket', basketController.getBasket);
+customer_routes.post('/basket/submit', orderController.selectedTableCheck, orderController.loggedinCheck ,orderController.submitOrder);
 customer_routes.post('/basket/add', basketController.addToBasket);
 customer_routes.get('/auth/google', (req, res, next) => {
     basket = req.session.basket;
     token = req.session.token;
+    table = req.session.table;
     next();
 },passport.authenticate('google', { scope: ['email'] }));
 customer_routes.get('/auth/google/callback', 
@@ -42,15 +47,13 @@ customer_routes.get('/auth/google/callback',
     function(req, res) {
     req.session.token = token;
     req.session.basket = basket;
+    req.session.table = table;
     res.redirect('/menu');
 });
 customer_routes.get('/customer/logout', (req, res) => {
-    //req.logout(function(err) {
-      //if (err) { return next(err); }
       delete req.session.passport;
       delete req.session.basket;
       res.redirect('/menu');
-   // });
 });
 
 
