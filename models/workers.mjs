@@ -21,6 +21,34 @@ class Worker   {
         }
     }
 
+    static async getUserByUsername (username, callback){
+        const query = 'SELECT id, username, password FROM user WHERE username = $1 LIMIT 0, 1';
+        try {
+            const { rows } = await pool.query(query, [username]);
+            callback(null, rows[0][0]);
+            //return user[0];
+        } catch (err) {
+            callback(err, null);
+        }
+    }
+
+    static async registerUser (username, password, name, callback){
+        const usernameExists = await this.isUsernameTaken(username);
+        if (usernameExists === true){
+            callback(null, false);
+        }
+        else if (usernameExists === false){
+            try{
+                const hashedPassword = await bcrypt.hash(password, 10);
+                const addUser = await this.addWorker([username, name, null, null, hashedPassword]);
+                callback(null, true);
+            }
+            catch(err){
+                throw err;
+            }
+        }
+    }
+
     static async isUsernameTaken (username, callback){
         const query = 'SELECT username FROM "worker" where username = $1';
         try{

@@ -1,7 +1,7 @@
 
     <div>
         <div>
-            <img class="logo" src="images\logo.png">
+            <img class="logo" src="/images/logo.png">
         </div>
         <div class="login-container">
             <form id="login-form" method = "POST">
@@ -12,11 +12,21 @@
                     <input type="password" id="password" name="password" required placeholder="password">
                 </div>
                 <button type="submit">Sign In</button>
+                <button type="register">Sign Up</button>
             </form>
         </div>
     </div>
 
-    <!--<script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('#login-form');
+
+            form.addEventListener('register', async function (event) {
+                window.location.href = '/register';
+            }
+    </script>
+
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             const form = document.querySelector('#login-form');
 
