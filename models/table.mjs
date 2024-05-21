@@ -18,7 +18,6 @@ class Table   {
           } catch (err) {
             callback(err, null)
           }
-      
     }
     
     static async addTable  (name, locationInStore, callback)  {

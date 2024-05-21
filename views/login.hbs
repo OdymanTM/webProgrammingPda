@@ -1,10 +1,10 @@
 
     <div>
         <div>
-            <img class="logo" src="images\logo.png">
+            <img class="logo" src="\images\logo.png">
         </div>
         <div class="login-container">
-            <form id="login-form" method = "POST">
+            <form id="login-form">
                 <div class="input-group">
                     <input type="text" id="username" name="username" required placeholder="username">
                 </div>
@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <!--<script>
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             const form = document.querySelector('#login-form');
 
@@ -27,19 +27,17 @@
                 let password = document.querySelector('#password').value;
 
                 try {
-                    const response = await fetch('/', {
+                    const response = await fetch('/worker', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ username, password })
-                    });
-
-                    if (response.ok) {
-                        window.location.href = '/menu';
+                    }); 
+                    if (response.status == 200) {
+                        console.log(response.body);
                     } else {
-                        const responseData = await response.json();
-                        alert(responseData.message);
+                        alert(await response.text());
                     }
                 } catch (err) {
                     console.error('Error:', err);
