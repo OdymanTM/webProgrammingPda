@@ -1,7 +1,7 @@
 
     <div>
         <div>
-            <img class="logo" src="\images\logo.png">
+            <img class="logo" src="/images/logo.png">
         </div>
         <div class="login-container">
             <form id="login-form">
@@ -11,13 +11,19 @@
                 <div class="input-group">
                     <input type="password" id="password" name="password" required placeholder="password">
                 </div>
-                <button type="submit">Sign In</button>
+                <button type="submit" class = "submit">Sign In</button>
             </form>
+            <button class = "register" onclick = "openRegister()">Sign Up</button>
         </div>
     </div>
 
     <script>
+        function openRegister(){
+            window.location.href = '/worker/register';
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
+
             const form = document.querySelector('#login-form');
 
             form.addEventListener('submit', async function (event) {

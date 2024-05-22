@@ -20,6 +20,10 @@ body {
     vertical-align: middle;
 }
 
+#logo:hover {
+    cursor: pointer;
+}
+
 .separator hr, .end-separator hr{
     background-color: rgba(27,93,107,0.4);
     width:95%;
