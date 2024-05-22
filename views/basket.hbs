@@ -1,3 +1,6 @@
+<div class="separator">
+    <hr>
+</div> 
 <div class="items">
     {{#each items}}
     <div class="item" id={{id}}>
@@ -12,7 +15,13 @@
     </div>
     {{/each}}
 </div>
+{{#if items}}
 <button  class="btn btn-primary" style="background-color: rgba(27,93,107,1);" id="submitorder">Submit Order</button>
+<button  class="btn btn-primary" style="background-color: rgba(27,93,107,1);" id="clearBasket">Clear Basket</button>
+{{else}}
+<p>Your current basket is empty</p>
+{{/if}}
+
 <div class="end-separator">
     <hr>
 </div>
@@ -20,9 +29,31 @@
 
 <script>
         document.addEventListener('DOMContentLoaded', function () {
+            const clearBasket = document.querySelector('#clearBasket');
+            clearBasket.addEventListener('click', async function (event) {
+                try {
+                    const response = await fetch('/basket/clear', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    }); 
+                    if (response.status == 200) {
+                        window.location.reload();
+                        console.log(response.body);
+                    } else {
+                        alert(await response.text());
+                    }
+                } catch (err) {
+                    console.error('Error:', err);
+                }
+            });
+
+
             const form = document.querySelector('#submitorder');
 
             form.addEventListener('click', async function (event) {
+                event.preventDefault();
                 try {
                     const response = await fetch('/basket/submit', {
                     method: 'POST',

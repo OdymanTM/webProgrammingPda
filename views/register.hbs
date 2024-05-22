@@ -6,6 +6,12 @@
         <div class="login-container">
             <form id="register-form" method = "POST">
                 <div class="input-group">
+                    <input type="text" id="admin_username" name="adminusername" required placeholder="admin username">
+                </div>
+                <div class="input-group">
+                    <input type="text" id="admin_password" name="adminpassword" placeholder="admin password">
+                </div>
+                <div class="input-group">
                     <input type="text" id="username" name="username" required placeholder="username">
                 </div>
                 <div class="input-group">
@@ -13,6 +19,10 @@
                 </div>
                 <div class="input-group">
                     <input type="password" id="password" name="password" required placeholder="password">
+                </div>
+                <div>
+                    <input type="checkbox" id="isAdmin" name="isAdmin" value="false">
+                    <label for="isAdmin">Register as admin</label>
                 </div>
                 {{#if message}}
                     <div class="alert alert-primary" role="alert">
@@ -29,4 +39,39 @@
     function openLogin(){
         window.location.href = '/worker';
     }
+    
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const form = document.querySelector('#register-form');
+
+        form.addEventListener('submit', async function (event) {
+            event.preventDefault();
+            
+            let admin_password = document.querySelector('#admin_password').value;
+            let admin_username = document.querySelector('#admin_username').value;
+            let username = document.querySelector('#username').value;
+            let name = document.querySelector('#name').value;
+            let password = document.querySelector('#password').value;
+            let isAdmin = document.querySelector('#isAdmin').checked;
+
+            try {
+                const response = await fetch('/worker/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({admin_password, admin_username, name, username, password, isAdmin })
+                }); 
+                if (response.status == 200) {
+                    console.log(response.body);
+                    window.location.href = '/worker';
+                } else {
+                    alert(await response.text());
+                }
+            } catch (err) {
+                console.error('Error:', err);
+            }
+        }); 
+    });
 </script>
