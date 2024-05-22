@@ -33,12 +33,8 @@ class Table   {
           }
     }
 
-    /*static async getTablesStatus (callback){
-      const query = 'SELECT * from "table'
-    }*/
-
     static async getAllTables (callback) {
-        const query = 'SELECT * FROM "table" order by "locationInStore"'
+        const query = 'SELECT * FROM "table" order by "tablelocation"'
         try{
           const { rows } = await pool.query(query);
           callback(null, rows)
@@ -66,6 +62,17 @@ class Table   {
           } catch (err) {
             callback(err, null)
           }
+    }
+
+    static async getTableIdByName (name, callback){
+      const query = 'SELECT id FROM "table" WHERE name = $1'
+      try{
+        const { rows } = await pool.query(query, [name]);
+        callback(null, rows)
+      }
+      catch(err){
+        callback(err, null)
+      }
     }
 
     static async deleteTable  (name, callback)  {

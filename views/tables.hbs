@@ -1,13 +1,13 @@
     <div class="separator">
         <hr>
     </div>
-    <div class="sectors">
-        {{#each sectors}}
-        {{#if chosen}}
-        <button class="sector" id="chosen" onclick="redirectToSector(0)">{{sector}}</button>
-        {{else}}
-        <button class="sector" onclick="redirectToSector('{{sector}}')">{{sector}}</button>
-        {{/if}}
+    <div class="locs">
+        {{#each locs}}
+            {{#if chosen}}
+                <button class="sector" id="chosen" onclick="redirectToSector(0)">{{tablelocation}}</button>
+            {{else}}
+                <button class="sector" onclick="redirectToSector('{{tablelocation}}')">{{tablelocation}}</button>
+            {{/if}}
         {{/each}}
     </div>
     {{#each tables}}
@@ -21,7 +21,7 @@
                 {{ name }}
             </div>
             <div class = "right-bar">
-                {{ status }}<br>{{#if extraInfo }}{{ extraInfo }}{{/if}}
+                {{ status }}
             </div>
         </div>
         <div class="inbetween-separator">
@@ -35,19 +35,12 @@
     </div> 
 
 <script>
-    function redirectToSector(sector) {
-        if (category !== 0){
-            window.location.href = "/tables/" + sector;   
+    function redirectToSector(tablelocation) {
+        if (tablelocation !== 0){
+            window.location.href = "/worker/tables/" + tablelocation;   
         } 
         else{
-            window.location.href = "/tables/";
+            window.location.href = "/worker/tables/";
         }
-        /*
-        let prevChosenSubcat = document.querySelector('#chosen');
-        prevChosenSubcat.removeAttribute("id");
-        let button = event.target;
-        button.setAttribute("id", "chosen");
-        document.querySelector('.chosen_sector').textContent = button.textContent;
-        */
     }
 </script>
