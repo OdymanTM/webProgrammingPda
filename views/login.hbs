@@ -36,6 +36,7 @@
                     }); 
                     if (response.status == 200) {
                         console.log(response.body);
+                        window.location.href = '/worker/menu';
                     } else {
                         alert(await response.text());
                     }
