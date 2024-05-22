@@ -33,6 +33,10 @@ class Table   {
           }
     }
 
+    /*static async getTablesStatus (callback){
+      const query = 'SELECT * from "table'
+    }*/
+
     static async getAllTables (callback) {
         const query = 'SELECT * FROM "table" order by "locationInStore"'
         try{

@@ -11,7 +11,7 @@ export async function login(req, res){
 export async function loginToPosts(req, res, next){
     try{
       const { username, password } = req.body;
-      await Worker.validateWorker(username, password,async (err, ress) => {
+      await worker.validateWorker(username, password,async (err, ress) => {
       if (ress == false) {
         res.status(401).send('Invalid username or password');
         console.log('Invalid username or password');
