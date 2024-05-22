@@ -3,9 +3,18 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
 export async function login(req, res){
-  console.log(req.session);
-  let pageTitle = 'Login';
-  res.render('login', {pageTitle: pageTitle, layout: "login_layout"});
+  if (req.session.token) {
+    jwt.verify(req.session.token, 'omada22', (err, data) => {
+        if (err) throw err;
+        if(data.exp < Date.now() / 1000) {
+            res.redirect('/worker/');
+        }
+        res.redirect('/worker/menu');
+    });
+  }else{
+    let pageTitle = 'Login';
+    res.render('login', {pageTitle: pageTitle, layout: "login_layout"});
+  }
 }
 
 export async function loginToPosts(req, res, next){
@@ -40,77 +49,31 @@ export async function register(req,res){
 }
 
 export async function registerToLogin(req,res){
-  /*try{
-    const { username, password } = req.body;
-    Worker.validateWorker(username, password,async (err, ress) => {
+  const {admin_password, admin_username, name, username, password, isAdmin } = req.body;
+  await worker.validateWorker(admin_username, admin_password, async (err, ress) => {
     if (ress == false) {
-      console.log('Invalid username or password');
+      res.status(401).send('Invalid admin username or password');
+      console.log('Invalid admin username or password');
     } 
     else {
-      const token = jwt.sign({ id: username }, 'omada22', { expiresIn: '7d' });
-      req.session.token = token;
-      console.log('User authenticated successfully:', token);
-      res.redirect('/worker/menu');
-    }});
-  }
-  catch(err){
-    console.log('Error during login:', err);
-    throw err;
-  }*/
-/*
-  try {
-    const { username, password, name } = req.body;
-    const usernameExists = await worker.isUsernameTaken(username);
-    if (usernameExists) {
-      res.render('register', { layout: "login_layout", message: 'Username already taken' });
-    } else {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      await worker.addWorker(username, name, false, 0, hashedPassword);
-      res.redirect('/login');
-    }
-  } catch (error) {
-    console.error('Registration error: ' + error);
-    //res.render('register', { layout: "login_layout", message: 'Registration failed, please try again' });
-  }*/
-
-  const { username, password, name } = req.body;
-    worker.isUsernameTaken(username, (err, usernameExists) => {
-        if (err) {
-            console.error('Registration error: ' + err);
-            return res.render('register', { layout: "login_layout", message: 'Registration failed, please try again' });
-        }
-        else if (usernameExists) {
-            return res.render('register', { layout: "login_layout", message: 'Username already taken' });
-        }
-        bcrypt.hash(password, 10, (err, hashedPassword) => {
-            if (err) {
-                console.error('Hashing error: ' + err);
-                return res.render('register', { layout: "login_layout", message: 'Registration failed, please try again' });
-            }
-            worker.addWorker(username, name, false, 0, hashedPassword, (err, worker) => {
-                if (err) {
-                    console.error('Registration error: ' + err);
-                    return res.render('register', { layout: "login_layout", message: 'Registration failed, please try again' });
-                }
-                res.redirect('/worker/login');
+      await worker.isUserAdmin(admin_username, async (err, isUserAdmin) => {
+        if(isUserAdmin)  {
+            await worker.addWorker(username, name, isAdmin, 0, password, (err, ress) => {
+              if (err) {
+                res.status(500).send('Error registering');
+                console.log('Error registering');
+              } else {
+                //res.status(200).send('Worker registered');
+                res.redirect('/worker');
+              }
             });
-        });
-    });
-
-/*
-  try {
-    const registrationResult = await worker.registerUser(req.body.username, req.body.password);
-    if (registrationResult.message) {
-        res.render('register', { layout:"login_layout", message: registrationResult.message })
+          } else{
+            res.status(401).send('You are not an admin');
+            console.log('You are not an admin');
+          }
+      });
     }
-    else {
-        res.redirect('/login');
-    }
-} catch (error) {
-    console.error('registration error: ' + error);
-    //FIXME: δε θα έπρεπε να περνάμε το εσωτερικό σφάλμα στον χρήστη
-    res.render('register', { layout:"login_layout", message: error });
-}*/
+  });
 }
 
 export async function posts(req, res){

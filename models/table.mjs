@@ -110,7 +110,5 @@ class Table   {
     }
 
 }
-Table.isTableAvailable(1, (err, res) => {
-    console.log(res,err)
-})
+
 export default Table;

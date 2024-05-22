@@ -6,6 +6,16 @@ class OrderItem {
         this.products = products;
     }
 
+    static async getLastOrderOfCustomer(customeremail, callback) {
+        const query = 'select * from "order" where customeremail = $1 order by "timeExecuted" desc limit 1;'
+        try {
+            const { rows } = await pool.query(query, [customeremail]);
+            callback(null, rows)
+          } catch (err) {
+            callback(err, null)
+          }
+    }
+
     static async getOrdersOfCustomer(customeremail, callback) {
         const query = 'select distinct o."totalOrderCost" ,o."timeExecuted" ,o."isCustomerOrder" ,o.status ,o.tableid, o.customeremail from "order" as o where o.customeremail = $1;'
         try {
@@ -26,6 +36,26 @@ class OrderItem {
 
     }
 
+    static async getActiveOrders(callback) {
+      const query = 'SELECT * FROM "order" WHERE status NOT IN (\'Paid\', \'Cancelled\') order by "timeExecuted"'
+      try {
+        const { rows } = await pool.query(query);
+        callback(null, rows)
+      } catch (err) {
+        callback(err, null)
+      }
+    }
+
+    static async getNotActiveOrders(callback) {
+      const query = 'SELECT * FROM "order" WHERE status IN (\'Paid\', \'Cancelled\') order by "timeExecuted"'
+      try {
+        const { rows } = await pool.query(query);
+        callback(null, rows)
+      } catch (err) {
+        callback(err, null)
+      }
+    }
+
     static async getOrderItems(orderid, callback) {
       const query = `select a.id ,a."comment" ,a.isonthehouse ,a."size" ,a.customeremail ,a.menuitemid ,a.menuitemid ,a.workerusername  from "order" as o, "orderAddition" as e, "addition" as a where e."orderId"  = o."orderId" and e.additionid = a.id and o."orderId" = $1;`
       try {
@@ -36,10 +66,11 @@ class OrderItem {
       }
     }
 
-    static async addOrderItems(orderid, items, customerEmail=null, workerUsername=null,callback) {
+    static async addOrderItems(client, orderid, items, customerEmail=null, workerUsername=null,callback) {
       let query = `INSERT INTO "addition" ("workerusername","customeremail", "menuitemid","comment","isonthehouse") VALUES  ($1, $2, $3, $4, $5) RETURNING *`
       let query1 = `INSERT INTO "orderAddition" ("orderId", "additionid") VALUES  (${orderid}, $1) RETURNING *`
-      const client = await pool.connect();
+      let outside_client = client ? true : false;
+      client = client ? client : await pool.connect();
       try {
         await client.query('BEGIN');  
         let lastRow = '';      
@@ -52,20 +83,21 @@ class OrderItem {
                     
                     await client.query(query1, [lastRow.rows[0].id]);
               }}
-              await client.query('COMMIT');
+              if (!outside_client) await client.query('COMMIT');
         callback(null, lastRow.rows)
       } catch (err) {
-        await client.query('ROLLBACK'); 
+        if (!outside_client) await client.query('ROLLBACK'); 
         callback(err, null);
       }finally {
-        client.release();
+        if (!outside_client) client.release();
       }
     }
 
-    static async initiateOrder(tableid, isCustomerOrder, customerEmail , callback) {
+    static async initiateOrder(client, tableid, isCustomerOrder, customerEmail , callback) {
+      client = client ? client : pool;
       const query = `INSERT INTO "order" ("isCustomerOrder", "status", "timeExecuted", "tableid", "customeremail") VALUES (${isCustomerOrder}, \'Not Ready\', current_timestamp, $1, $2) RETURNING "orderId"`
       try {
-        const { rows } = await pool.query(query, [tableid, customerEmail]);
+        const { rows } = await client.query(query, [tableid, customerEmail]);
         callback(null, rows)
       } catch (err) {
         callback(err, null)
@@ -94,4 +126,7 @@ class OrderItem {
 //});
 //await OrderItem.addOrderItems(id,items, "palamaris02@gmail.com" ,null, (err, data) => { console.log(data, err) });
 //OrderItem.getOrdersOfCustomer("palamaris02@gmail.com", (err, data) => { console.log(data, err) });
+// await OrderItem.updateOrderStatus(56, 'Paid', (err, data) => {
+//   console.log(data, err);
+// });
 export default OrderItem;

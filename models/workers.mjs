@@ -21,6 +21,8 @@ class Worker   {
         }
     }
 
+    sta
+
     static async getUserByUsername (username, callback){
         const query = 'SELECT id, username, password FROM user WHERE username = $1 LIMIT 0, 1';
         try {
@@ -55,6 +57,22 @@ class Worker   {
             const { rows } = await pool.query(query, [username]);
             if (rows.length > 0){
                 callback(null, true);
+            }
+            else{
+                callback(null, false);
+            }
+        }
+        catch(err){
+            callback(err, null);
+        }
+    }
+
+    static async isUserAdmin (username, callback){
+        const query = 'SELECT "isAdmin" FROM "worker" where username = $1';
+        try{
+            const { rows } = await pool.query(query, [username]);
+            if (rows.length > 0){
+                callback(null, rows[0].isAdmin);
             }
             else{
                 callback(null, false);
