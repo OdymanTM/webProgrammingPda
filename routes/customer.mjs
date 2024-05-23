@@ -22,7 +22,11 @@ customer_routes.use(
             res.locals.loggedInUser = false;
             res.locals.loginpath = '/auth/google';
         }
-        res.locals.numberOfBasketItems = req.session.basket.length || 0;
+        if (!req.session.basket) {
+            req.session.basket = [];
+          }
+          res.locals.numberOfBasketItems = req.session.basket.length;
+        //res.locals.numberOfBasketItems = req.session.basket.length || 0;
         next();
     }
 );
