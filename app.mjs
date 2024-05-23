@@ -5,17 +5,29 @@ import { engine } from 'express-handlebars';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import passport from 'passport';
-
+import exphbs from 'express-handlebars';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+
 app.use(express.static(path.join(__dirname, 'public')));
 const port = process.env.PORT || '3000';
 app.listen(port,'0.0.0.0', () => { console.log(`http://Localhost:${port}`) });
 
-app.engine('hbs', engine({ extname: 'hbs', defaultLayout: 'main', layoutsDir: __dirname + '/views/layouts'}));
+const hbs = exphbs.create({  // Creating Handlebars instance with custom helper
+  helpers: {
+    json: function (context) {
+      return JSON.stringify(context);
+    }
+  },
+  extname: 'hbs', 
+  defaultLayout: 'main', 
+  layoutsDir: path.join(__dirname, '/views/layouts') 
+});
+
+app.engine('hbs', engine(hbs));
 app.set('view engine', 'hbs');
 
 const FileStoreSession = FileStore(session);

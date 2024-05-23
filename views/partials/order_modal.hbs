@@ -1,0 +1,85 @@
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel"></h5> 
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+    {{#each items}}
+    <div class = 'items'>
+        {{#each this}}
+        <div class = 'item' id = {{id}}>
+            <p class = 'text-content'> {{name}} </p>
+            <div class = 'desc-and-price'>
+                <p class = "desc">{{description}}</p>
+                <p class = "price">{{price}}</p>
+            </div>
+        </div>
+        <div class = 'inbetween-separator'>
+            <hr>
+        </div>
+        {{/each}}
+        {{/each}}
+    </div>
+<!--
+      <form id="myForm" action="/basket/add" method="POST">
+      <div class="modal-body" style="display: flex; justify-content: center; padding: 20px;">
+        <input type="hidden" id="modalItemPrice" name="price">
+        <input type="hidden" id="modalItemDescription" name="description">
+        <input type="hidden" id="modalItemId" name="id">
+        <input type="hidden" id="modalItemQuantity" name="quantity">
+        <input type="hidden" id="modalItemName" name="name">
+        <div class="counter" style="width: 30%;">
+          <i class="fa-solid fa-minus" style="cursor: pointer; font-size: 35px; color: rgba(27,93,107,1);" onclick="decrement()"></i>
+          <span class="counter-value" style="font-size: 35px;">1</span>
+          <i class="fa-solid fa-plus" style="cursor: pointer; font-size: 35px; color: rgba(27,93,107,1);" onclick="increment()"></i>
+        </div>
+-->
+        <script>
+            /*
+          function decrement() {
+            let counterValue = document.querySelector('.counter-value');
+            let totalcost = document.querySelector('#totalcost');
+            let value = parseInt(counterValue.textContent);
+            let currentprice = document.querySelector('#modalItemPrice');
+            let quantity = document.querySelector('#modalItemQuantity');
+            if (value > 0) {
+              counterValue.textContent = value - 1;
+              totalcost.textContent = (value-1) * parseFloat(currentprice.value);
+              quantity.value = value - 1;
+            }
+          }
+
+          function increment() {
+            let counterValue = document.querySelector('.counter-value');
+            let totalcost = document.querySelector('#totalcost');
+            let currentprice = document.querySelector('#modalItemPrice');
+            let quantity = document.querySelector('#modalItemQuantity');
+            let value = parseInt(counterValue.textContent);
+            counterValue.textContent = value + 1;
+            quantity.value = value + 1;
+            totalcost.textContent = (value+1) * parseFloat(currentprice.value);
+            
+          }*/
+        </script>
+<!--        
+        <div style="display: flex; align-items: center;padding: 12px;">
+          <span class="fa-solid fa-receipt" style="padding: 3px; font-size: 35px; color: rgba(27,93,107,1);"></span>
+          <span style="font-size: 35px;" id="totalcost"></span>
+          <span style="padding: 3px; font-size: 35px; ">€</span>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <textarea name="comment" id="comment" placeholder="Add a comment"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" style="background-color: rgba(27,93,107,1);">Add to basket</button>
+      </div>
+      </form>
+    </div>
+    -->
+  </div>
+</div>

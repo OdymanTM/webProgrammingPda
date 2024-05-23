@@ -11,7 +11,7 @@ worker_routes.get('/register', worker_controller.register);
 worker_routes.post('/register', worker_controller.registerToLogin);
 worker_routes.get('/', worker_controller.login);
 worker_routes.post('/',worker_controller.loginToPosts);
-
+/*
 worker_routes.use(
     (req, res, next) => {
         if (req.session.token) {
@@ -33,7 +33,7 @@ worker_routes.use(
             res.redirect('/worker')
         }
     }
-    );
+    );*/
     
 
 worker_routes.get('/posts', worker_controller.posts);
