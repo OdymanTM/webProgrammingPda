@@ -36,6 +36,7 @@ class OrderItem {
 
     }
 
+
     static async getActiveOrders(callback) {
       const query = 'SELECT * FROM "order" WHERE status NOT IN (\'Paid\', \'Cancelled\') order by "timeExecuted"'
       try {

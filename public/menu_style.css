@@ -89,6 +89,7 @@ body {
     flex-direction: row;
     justify-content: space-evenly;
     position: fixed;
+    background-color: #FFFFFF;
     bottom: 0;
     width: 100%;
     padding: 12px 0;

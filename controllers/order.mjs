@@ -22,7 +22,7 @@ export async function noOtherActiveOrderCheck(req, res, next) {
         if (err) {
             res.status(500).send('Error getting last order');
         } else {
-            if (result.status === 'Paid' || result.status === 'Cancelled') {
+            if (result[0].status === 'Paid' || result[0].status === 'Cancelled') {
                 return next();
             } else {
                 res.status(500).send('You have an active order');

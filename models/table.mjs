@@ -6,17 +6,27 @@ class Table   {
         this.locationInStore = locationInStore; 
     }
 
-    static async isTableAvailable  (tableid, callback)  {
+    static async isTableAvailable  (callback)  {
+        const query = 'SELECT t.tableid, o.status FROM "table" as t LEFT JOIN "order" as o ON t.tableid = o.tableid where o."orderId" = (select "orderId" from "order" order by "timeExecuted" desc limit 1) or o.status is null'
+        try {
+            const { rows } = await pool.query(query);
+              callback(null, rows)
+          } catch (err) {
+            callback(err, null)
+          }
+    }
+
+    static async getTablesStatus  (tableid, callback)  {
         const query = 'SELECT * FROM "order" WHERE "tableid" = $1 order by "timeExecuted" desc limit 1'
         try {
             const { rows } = await pool.query(query, [tableid]);
             if (rows.length == 0) {
-              callback(null, true)
+              callback(null, 'Free')
             } else if (rows[0].status == 'Paid' || rows[0].status == 'Cancelled') {
-              callback(null, true)
+              callback(null, 'Free')
              
             } else {
-              callback(null, false)
+              callback(null, 'Occupied')
             }
           } catch (err) {
             callback(err, null)
