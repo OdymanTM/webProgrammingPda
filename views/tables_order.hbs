@@ -1,0 +1,69 @@
+    <div class="separator">
+        <hr>
+    </div>
+    <div class="menu_categories">
+        {{#each menuCats}}
+        {{#if chosen}}
+        <button class="menu" id="chosen" onclick="redirectToMenu(0)">{{category}}</button>
+        {{else}}
+        <button class="menu" onclick="redirectToMenu('{{category}}')">{{category}}</button>
+        {{/if}}
+        {{/each}}
+    </div>
+    <div class = 'main'>
+        {{#each items}}
+        <div class="chosen_menu">
+            {{@key}}
+        </div>
+        <div class="items">
+            {{#each this}}
+            <div class="item" id={{id}}>
+                <div class = 'desc-and-price'>
+                <p class="text-content" data-bs-toggle="modal" data-bs-target="#myModal" data-description="{{description}}" data-name="{{name}}" data-id={{id}} data-price={{price}}>{{name}}</p>
+                <p class="price">{{amount}}</p>
+                </div>
+                <div class="desc-and-price">
+                    <p class="desc">{{description}}</p>
+                    <!--<p class="price">{{price}} €</p>-->
+                </div>
+            </div>
+            <div class="inbetween-separator">
+                <hr>
+            </div>
+            {{/each}}
+            {{/each}}
+        </div>
+        <div class="end-separator">
+            <hr>
+        </div>
+    </div>
+    <script>
+        function redirectToMenu(category) {
+            if (category !== 0) {
+            window.location.href = "/menu/" + category;    
+            }
+            else {
+                window.location.href = "/menu";
+            }
+        }
+    </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('#myModal').on('show.bs.modal', function (event) {
+        let name = $(event.relatedTarget).data('name');
+        let price = $(event.relatedTarget).data('price');
+        let id = $(event.relatedTarget).data('id');
+        let description = $(event.relatedTarget).data('description');
+        let modal = $(this);
+        modal.find('#myModalLabel').text(name);
+        modal.find('#modalItemName').val(name);
+        modal.find('.counter-value').text(1);
+        modal.find('#modalItemQuantity').val(1);
+        modal.find('#modalItemDescription').val(description);
+        modal.find('#modalItemId').val(id);
+        modal.find('#modalItemPrice').val(price);
+        modal.find('#totalcost').text(price);
+        });
+    });
+    </script>

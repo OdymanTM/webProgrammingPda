@@ -19,7 +19,7 @@
             {{#each this}}
             <div class="table">
                 <div class = "left-bar-tables" >
-                    <p class = 'table-item' data-bs-toggle="modal" data-bs-target="#myModal" data-tablelocation="{{tablelocation}}" data-name="{{name}}">{{ name }}</p>
+                    <p class = 'table-item' onclick() = 'tablesOrder({{tablelocation}}, {{name}})' data-bs-toggle="modal" data-bs-target="#myModal" data-tablelocation="{{tablelocation}}" data-name="{{name}}">{{ name }}</p>
                 </div>
                 <div class = "right-bar-tables">
                     {{ status }}
@@ -63,6 +63,10 @@
         else{
             window.location.href = "/worker/tables/";
         }
+    }
+
+    function tableOrder(tablelocation, name){
+        window.location.href = `/worker/table/${tablelocation + ' ' + name}/order/`;
     }
 
     document.addEventListener('DOMContentLoaded', () => {

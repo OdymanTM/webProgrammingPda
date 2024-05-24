@@ -42,6 +42,7 @@ worker_routes.get('/menu/:category', menuController.getOneCategory);
 worker_routes.get('/orders_history', ordersHistoryController.getOrdersHistory);
 worker_routes.get('/tables', tablesController.getTables);
 worker_routes.get('/tables/:sector',tablesController.getOneLocation);
+worker_routes.get('/tables/:table/order', tablesController.getTablesOrder);
 worker_routes.get('/logout', worker_controller.doLogout);
 export default worker_routes;
 

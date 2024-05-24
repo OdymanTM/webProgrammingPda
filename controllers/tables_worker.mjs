@@ -212,5 +212,10 @@ async function getOneLocation(req, res){
     })
 }
   */  
-export { getTables, getOneLocation };
+
+async function getTablesOrder(req, res){
+    
+}
+
+export { getTables, getOneLocation, getTablesOrder };
     
