@@ -10,30 +10,33 @@
         {{/if}}
         {{/each}}
     </div>
-    {{#each items}}
-    <div class="chosen_menu">
-        {{@key}}
-    </div>
-    <div class="items">
-        {{#each this}}
-        <div class="item" id={{id}}>
-            <p class="text-content" data-bs-toggle="modal" data-bs-target="#myModal" data-description="{{description}}" data-name="{{name}}" data-id={{id}} data-price={{price}}>{{name}}</p>
-            <div class="desc-and-price">
-                <p class="desc">{{description}}</p>
-                <p class="price">{{price}} €</p>
-            </div>
+    <div class = 'main'>
+        {{#each items}}
+        <div class="chosen_menu">
+            {{@key}}
         </div>
-        <div class="inbetween-separator">
+        <div class="items">
+            {{#each this}}
+            <div class="item" id={{id}}>
+                <div class = 'desc-and-price'>
+                <p class="text-content" data-bs-toggle="modal" data-bs-target="#myModal" data-description="{{description}}" data-name="{{name}}" data-id={{id}} data-price={{price}}>{{name}}</p>
+                <p class="price">{{price}} €</p>
+                </div>
+                <div class="desc-and-price">
+                    <p class="desc">{{description}}</p>
+                    <!--<p class="price">{{price}} €</p>-->
+                </div>
+            </div>
+            <div class="inbetween-separator">
+                <hr>
+            </div>
+            {{/each}}
+            {{/each}}
+        </div>
+        <div class="end-separator">
             <hr>
         </div>
-        {{/each}}
-        {{/each}}
     </div>
-    <div class="end-separator">
-        <hr>
-    </div>
-    
-
     <script>
         function redirectToMenu(category) {
             if (category !== 0) {
