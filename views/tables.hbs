@@ -10,29 +10,31 @@
             {{/if}}
         {{/each}}
     </div>
-    {{#each tables}}
-    <div class = "chosen_sector">
-        {{@key}}
-    </div>
-    <div class="tables">
-        {{#each this}}
-        <div class="table">
-            <div class = "left-bar" >
-                <p class = 'table-item' data-bs-toggle="modal" data-bs-target="#myModal" data-tablelocation="{{tablelocation}}" data-name="{{name}}">{{tablelocation}}: {{ name }}</p>
-            </div>
-            <div class = "right-bar">
-                {{ status }}
-            </div>
+    <div class = 'main'>
+        {{#each tables}}
+        <div class = "chosen_sector">
+            {{@key}}
         </div>
-        <div class="inbetween-separator">
+        <div class="tables">
+            {{#each this}}
+            <div class="table">
+                <div class = "left-bar" >
+                    <p class = 'table-item' data-bs-toggle="modal" data-bs-target="#myModal" data-tablelocation="{{tablelocation}}" data-name="{{name}}">{{ name }}</p>
+                </div>
+                <div class = "right-bar">
+                    {{ status }}
+                </div>
+            </div>
+            <div class="inbetween-separator">
+                <hr>
+            </div> 
+            {{/each}}
+            {{/each}}
+        </div>
+        <div class="end-separator">
             <hr>
         </div> 
-        {{/each}}
-        {{/each}}
     </div>
-    <div class="end-separator">
-        <hr>
-    </div> 
     
     <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
