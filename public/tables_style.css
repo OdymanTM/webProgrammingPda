@@ -44,6 +44,10 @@ body {
     justify-content: space-around;
 }
 
+.table > :not(:first-child){
+    border-top:none !important;
+}
+
 .table:first-child{
     padding-top: 10px;
 }
@@ -60,8 +64,9 @@ body {
     text-align: center;
 }
 
-.left-bar{
-    padding:10px 20px 10px 20px;
+.left-bar-tables{
+    padding: 0px 15px 0px 15px;
+    margin: 0px 5px 0px 5px;
     text-align: center;
 }
 
@@ -76,18 +81,19 @@ body {
     padding-top:18px;
 }
 
-.right-bar{
-    border-top: none;
-    border-left: solid;
+.right-bar-tables{
+    border-top:transparent;
+    border-left:solid;
     border-left-color: rgba(27,93,107,0.8);
-    padding: 4px 0px 6px 0px;
+    padding: 0px 15px 0px 15px;
+    margin: 0px 5px 0px 5px;
     display:flex;
     flex-direction: row;
     text-align: left;
     color:#666666;
 }
 
-.inbetween-separator hr{
+.inbetween-separator-tables hr{
     width:90%;
     background-color: rgba(200,200,200,0.4);
     opacity:0.4;
@@ -107,6 +113,7 @@ body {
     left:0;
     right:0;
     z-index:1000;
+    background-color: #FFFFFF;
     display:flex;
     flex-direction: row;
     justify-content: space-evenly;
