@@ -34,7 +34,6 @@ worker_routes.use(
         }
     }
     );*/
-    
 
 worker_routes.get('/posts', worker_controller.posts);
 worker_routes.get('/menu', menuController.getMenu);

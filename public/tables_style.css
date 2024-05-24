@@ -9,7 +9,7 @@ body {
     top:0;
     right:0;
     left:0;
-    z-index:0;
+    z-index:1000;
     background-color: #FFFFFF;
     color: rgba(27,93,107,1);
     padding-top: 10px;
@@ -55,7 +55,8 @@ body {
     cursor: pointer;
     display:flex;
     flex-direction: row;
-    padding:10px 20px 10px 20px;
+    padding:12px 0px 0px 0px;
+    margin:0px;
     text-align: center;
 }
 
@@ -76,9 +77,10 @@ body {
 }
 
 .right-bar{
+    border-top: none;
     border-left: solid;
-    border-left-color: rgba(27,93,107,0.4);
-    padding: 6px 20px 6px 20px;
+    border-left-color: rgba(27,93,107,0.8);
+    padding: 4px 0px 6px 0px;
     display:flex;
     flex-direction: row;
     text-align: left;
@@ -89,6 +91,8 @@ body {
     width:90%;
     background-color: rgba(200,200,200,0.4);
     opacity:0.4;
+    padding: 0px;
+    margin: 0px;
 }
 
 .end-separator hr{
@@ -145,7 +149,7 @@ body {
     right:10px;
 }
 
-.sectors{
+.locs{
     position: fixed;
     top: 78px;
     right:0;
