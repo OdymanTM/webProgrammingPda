@@ -23,11 +23,11 @@
                         <p class = 'table-item' >{{tablelocation}}: {{name}}</p>
                     </a>
                 </div>
-                <div class = "right-bar">
+                <div class = "right-bar-tables">
                     {{ status }}
                 </div>
             </div>
-            <div class="inbetween-separator">
+            <div class="inbetween-separator-tables">
                 <hr>
             </div> 
             {{/each}}
@@ -65,6 +65,10 @@
         else{
             window.location.href = "/worker/tables/";
         }
+    }
+
+    function tableOrder(tablelocation, name){
+        window.location.href = `/worker/table/${tablelocation + ' ' + name}/order/`;
     }
 
     document.addEventListener('DOMContentLoaded', () => {

@@ -11,7 +11,7 @@ worker_routes.get('/register', worker_controller.register);
 worker_routes.post('/register', worker_controller.registerToLogin);
 worker_routes.get('/', worker_controller.login);
 worker_routes.post('/',worker_controller.loginToPosts);
-
+/*
 worker_routes.use(
     (req, res, next) => {
         if (req.session.token) {
@@ -34,7 +34,7 @@ worker_routes.use(
         }
     }
     );
-    
+*/
 
 worker_routes.get('/posts', worker_controller.posts);
 worker_routes.get('/menu', menuController.getMenu);
@@ -43,6 +43,7 @@ worker_routes.get('/orders_history', ordersHistoryController.getOrdersHistory);
 worker_routes.get('/tables', tablesController.getTables);
 worker_routes.get('/tables/order/:id', tablesController.orderOfTable);
 worker_routes.get('/tables/:sector',tablesController.getOneLocation);
+worker_routes.get('/tables/:table/order', tablesController.getTablesOrder);
 worker_routes.get('/logout', worker_controller.doLogout);
 export default worker_routes;
 
