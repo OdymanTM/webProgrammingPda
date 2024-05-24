@@ -1,5 +1,6 @@
 import { rmSync } from 'fs';
 import table from '../models/table.mjs';
+import order from '../models/order.mjs';
 import util from 'util';
 
 /*
@@ -49,10 +50,12 @@ async function getTables(req, res) {
     const getAllTablesAsync = util.promisify(table.getAllTables);
     const getTableLocationsAsync = util.promisify(table.getTableLocations);
     const isTableAvailableAsync = util.promisify(table.isTableAvailable);
-    
+    const getActiveOrdersAsync = util.promisify(order.getActiveOrders);
+
     try {
         const tables = await getAllTablesAsync();
         const locs = await getTableLocationsAsync();
+        const activeOrders = await getActiveOrdersAsync();
 
         const locsObj = {
             locs: locs.map(loc => ({
@@ -82,13 +85,14 @@ async function getTables(req, res) {
 
             return acc;
         }, Promise.resolve({}));
-
+        console.log(JSON.stringify(activeOrders), activeOrders);
         res.render('tables', {
             layout: "main",
             pageTitle: pageTitle,
             locs: locsObj.locs,
             chosenSector: '',
-            tables: groupedTables
+            tables: groupedTables,
+            activeOrders: JSON.stringify(activeOrders)
         });
     } catch (err) {
         console.log(err);

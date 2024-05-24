@@ -17,8 +17,8 @@
     <div class="tables">
         {{#each this}}
         <div class="table">
-            <div class = "left-bar" data-bs-toggle="modal" data-bs-target="#myModal">
-                {{ name }}
+            <div class = "left-bar" >
+                <p class = 'table-item' data-bs-toggle="modal" data-bs-target="#myModal" data-tablelocation="{{tablelocation}}" data-name="{{name}}">{{ name }}</p>
             </div>
             <div class = "right-bar">
                 {{ status }}
@@ -30,6 +30,27 @@
         {{/each}}
         {{/each}}
     </div>
+    <div class="end-separator">
+        <hr>
+    </div> 
+    
+    <!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel"></h5> 
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+        <div class="modal-body">
+        <div id="modal-items">
+          <!-- Dynamic content will be inserted here -->
+        </div>
+      </div>
+      <!-- Additional form elements can be included here if needed -->
+    </div>
+  </div>
+</div>
 
 
 <script>
@@ -40,5 +61,97 @@
         else{
             window.location.href = "/worker/tables/";
         }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.table-item').forEach(item => {
+            item.addEventListener('click', function() {
+                //const tableid = this.dataset.tableid;
+                const name = this.dataset.name;
+                const tablelocation = this.dataset.tablelocation;
+
+                document.getElementById('myModalLabel').textContent = name;
+                const tableName = tablelocation + ' ' + name;
+                console.log('123', tableName);
+                //const activeOrders = {{{activeOrders}}};
+                const orders = JSON.parse('{{{activeOrders}}}');
+                console.log(orders);
+                const tableOrders = orders.filter(order => {
+                    const {tablelocation, name} = order;
+                    const orderName = tablelocation + ' ' + name;
+                    return orderName === tableName;
+                });
+                const modalItemsContainer = document.getElementById('modal-items');
+                modalItemsContainer.innerHTML = '';
+                if (tableOrders.length > 0) {
+                    tableOrders.forEach(order => {
+                        const itemHtml = `
+                            <div class="item" id="${order.id}">
+                                <p class="text-content">${order.name}</p>
+                                <div class="desc-and-price">
+                                    <p class="desc">${order.description}</p>
+                                    <p class="price">${order.price}</p>
+                                </div>
+                            </div>
+                            <div class="inbetween-separator">
+                                <hr>
+                            </div>`;
+                        modalItemsContainer.innerHTML += itemHtml;
+                    });
+                } else {
+                    modalItemsContainer.innerHTML = '<p>No active orders for this table.</p>';
+                }
+
+
+                //renderModal('myModal', name, tableOrders);
+                //renderModal('myModal', name, [
+                  //  { id: id, name: name, description: description, price: price }
+                //]);
+            });
+        });
+    });
+
+    function renderModal(modalId, modalTitle, items) {
+        let modalHtml = `
+            <div class="modal fade" id="${modalId}" tabindex="-1" aria-labelledby="${modalId}Label" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="${modalId}Label">${modalTitle}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">`;
+
+        if (items.length > 0) {
+            items.forEach(item => {
+                modalHtml += `
+                    <div class='item' id='${item.id}'>
+                        <p class='text-content'>${item.name}</p>
+                        <div class='desc-and-price'>
+                            <p class='desc'>${item.description}</p>
+                            <p class='price'>${item.price}</p>
+                        </div>
+                    </div>
+                    <div class='inbetween-separator'>
+                        <hr>
+                    </div>`;
+            });
+        } else {
+            modalHtml += `<p>No active orders for this table.</p>`;
+        }
+
+        modalHtml += `
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+
+        //document.getElementById('modalContainer').innerHTML = modalHtml;
+
+        //var myModal = new bootstrap.Modal(document.getElementById(modalId));
+        //myModal.show();
     }
 </script>

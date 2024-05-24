@@ -38,7 +38,7 @@ class OrderItem {
 
 
     static async getActiveOrders(callback) {
-      const query = 'SELECT * FROM "order" WHERE status NOT IN (\'Paid\', \'Cancelled\') order by "timeExecuted"'
+      const query = 'SELECT * FROM "order" NATURAL JOIN "table" WHERE status NOT IN (\'Paid\', \'Cancelled\') order by "timeExecuted"'
       try {
         const { rows } = await pool.query(query);
         callback(null, rows)
