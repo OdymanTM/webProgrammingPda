@@ -25,6 +25,8 @@ class OrderItem {
             callback(err, null)
           }
     }
+
+
     static async updateOrderStatus(orderid, status, callback) {
         const query = 'UPDATE "order" SET "status" = $1 WHERE "orderId" = $2'
         try {
@@ -58,7 +60,9 @@ class OrderItem {
     }
 
     static async getOrderItems(orderid, callback) {
-      const query = `select a.id ,a."comment" ,a.isonthehouse ,a."size" ,a.customeremail ,a.menuitemid ,a.menuitemid ,a.workerusername  from "order" as o, "orderAddition" as e, "addition" as a where e."orderId"  = o."orderId" and e.additionid = a.id and o."orderId" = $1;`
+      const query = `select a.id ,a."comment" ,a.isonthehouse ,a.customeremail,a.workerusername ,m.name,m.size,m.category ,m.id, m.price\
+        from "order" as o, "orderAddition" as e,"menuItem" as m,  "addition" as a where m.id = a.menuitemid and e."orderId"  = o."orderId"\
+         and e.additionid = a.id and o."orderId" = $1;`
       try {
         const { rows } = await pool.query(query, [orderid]);
         callback(null, rows)
@@ -120,7 +124,7 @@ class OrderItem {
 // },
 // ];
 //let id;
-//OrderItem.getOrderItems(16, (err, data) => { console.log(data, err) });
+// OrderItem.getOrderItems(56, (err, data) => { console.log(data, err) });
 //await OrderItem.initiateOrder(1, true, 'palamaris02@gmail.com',(err, data) => { 
 //  id = data[0].orderId;
 //  console.log(data, err) 

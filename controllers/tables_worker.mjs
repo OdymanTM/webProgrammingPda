@@ -4,10 +4,9 @@ import order from '../models/order.mjs';
 import util from 'util';
 
 
-async function getTables(req, res){
+export async function getTables(req, res){
     const pageTitle = 'Tables';
-    await table.getTablesStatus(async (err, tables) => {
-        await table.getTableLocations(async (err, locations) => {
+    await table.getTablesStatus((err, tables) => {
             if (err){
                 console.log(err);
                 res.status(500).send('Error finding tables');
@@ -23,19 +22,75 @@ async function getTables(req, res){
                     acc[tab.tablelocation].push(tab);
                     return acc;
                 }, {});
-                console.log(groupedTables);
+                //get sectors (tablelocations)
+                let locations = Object.keys(groupedTables);
+                locations = locations.map(loc => ({tablelocation: loc}));
                 res.render('tables', {
                     layout: "main",
                     pageTitle: pageTitle,
-                    locs: locations,
+                    locations: locations,
                     tables: groupedTables,
-                    activeOrders: {}
                 });
             }
-        });
     });
 }
 
+export async function orderOfTable(req, res){
+    await table.getLastOrderOfTable(req.params.id, (err, order) => {
+        if (err){
+            console.log(err);
+            res.status(500).send('Error finding order');
+        }
+        else{
+            if (order.length === 0){
+                res.status(404).send('No order found');
+            }else{
+                res.send(order);
+            }
+        }
+    }
+    )}
+
+export async function getOneLocation(req, res){
+    const pageTitle = 'Tables';
+    await table.getTablesStatus((err, tables) => {
+            if (err){
+                console.log(err);
+                res.status(500).send('Error finding tables');
+            }
+            else{
+                let groupedTables = tables.reduce((acc, tab) => {
+                    if (!acc[tab.tablelocation]){
+                        acc[tab.tablelocation] = [];
+                    }
+                    if (tab.status === null){
+                        tab.status = 'Free';
+                    }
+                    acc[tab.tablelocation].push(tab);
+                    return acc;
+                }, {});
+                let locations = Object.keys(groupedTables);
+                locations = locations.map(loc => ({tablelocation: loc}));
+                for(let loc of locations) {
+                    if (loc.tablelocation == req.params.sector) {
+                        loc.chosen = true;
+                    }
+                }
+                //keep only the tables of the selected sector
+                for(let loc in groupedTables) {
+                    if (loc !== req.params.sector) {
+                        delete groupedTables[loc];
+                    }
+                }
+                res.render('tables', {
+                    layout: "main",
+                    pageTitle: pageTitle,
+                    locations: locations,
+                    tables: groupedTables,
+                });
+            }
+        });
+}
 // async function getTables(req, res) {
 //     const pageTitle = 'Tables';
 
@@ -91,42 +146,6 @@ async function getTables(req, res){
 //         res.status(500).send('Error finding tables');
 //     }
 // }
-async function getOneLocation(req, res){
-    const pageTitle = 'Tables';
-    await table.getTablesStatus(async (err, tables) => {
-        await table.getTableLocations(async (err, locations) => {
-            if (err){
-                console.log(err);
-                res.status(500).send('Error finding tables');
-            }
-            else{
-                const groupedTables = tables.reduce((acc, tab) => {
-                    if (!acc[tab.tablelocation]){
-                        acc[tab.tablelocation] = [];
-                    }
-                    if (tab.status === null){
-                        tab.status = 'Free';
-                    }
-                    acc[tab.tablelocation].push(tab);
-                    return acc;
-                }, {});
-                console.log(groupedTables);
-                for (let sector of locsObj.locs){
-                    if (sector.tablelocation == req.params.tablelocation){
-                        sector.chosen = true;
-                    }
-                }
-                res.render('tables', {
-                    layout: "main",
-                    pageTitle: pageTitle,
-                    locs: locations,
-                    tables: groupedTables,
-                    activeOrders: {}
-                });
-            }
-        });
-    });
-}
 
 // async function getOneLocation(req, res){
 //     const pageTitle = 'Tables';
@@ -212,5 +231,4 @@ async function getOneLocation(req, res){
     })
 }
   */  
-export { getTables, getOneLocation };
     

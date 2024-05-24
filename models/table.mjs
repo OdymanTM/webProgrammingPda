@@ -16,6 +16,30 @@ class Table   {
           }
     }
 
+    static async getLastOrderOfTable (tableid, callback) {
+      const query = 'select distinct m."name" , m.category, a."comment" , m."size", m.price  from "order" as o, "table" as t, "addition" as a, "orderAddition" as oa, "menuItem" as m\
+      where o."orderId"  = (select "orderId" from "order" where $1 = "tableid" order by "timeExecuted" desc limit 1) and oa."orderId" = o."orderId" and oa.additionid = a.id\
+      and m.id = a.menuitemid'
+      try {
+          const { rows } = await pool.query(query, [tableid]);
+            callback(null, rows)
+        } catch (err) {
+          callback(err, null)
+        }
+    }
+
+    static async  getTablesStatusByLocation (tablelocation,callback)  {
+      const query = 'SELECT t.tablelocation, t."name", t.tableid , o.status FROM "table" as t \
+      LEFT JOIN "order" as o ON t.tableid = o.tableid where t.tablelocation = $1 and (o."orderId" = (select "orderId" from "order" order by "timeExecuted" desc limit 1)\
+       or o.status is null)'
+      try {
+          const { rows } = await pool.query(query, [tablelocation]);
+            callback(null, rows)
+        } catch (err) {
+          callback(err, null)
+        }
+  }
+
     static async isTableAvailable  (tableid, callback)  {
         const query = 'SELECT * FROM "order" WHERE "tableid" = $1 order by "timeExecuted" desc limit 1'
         try {
