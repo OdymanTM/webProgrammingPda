@@ -33,7 +33,7 @@ customer_routes.use(
 customer_routes.get('/', (req, res) => {
     res.redirect('/menu');
 });
-customer_routes.get('/menu/:tableid', orderController.tableCheck);
+customer_routes.get('/menu/table/:tableid', orderController.tableCheck);
 customer_routes.get('/menu', menuController.getMenu);
 customer_routes.get('/menu/:category', menuController.getOneCategory);
 customer_routes.get('/orders_history', ordersHistoryController.getOrdersHistory);

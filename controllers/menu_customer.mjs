@@ -17,7 +17,7 @@ async function getMenu (req, res) {
               acc[item.category].push(item);
               return acc;
           }, {});
-        res.render('menu', {layout: "main_customer", pageTitle: pageTitle, menuCats: categories, chosenCat: '', items: groupedItems });
+        res.render('menu', {layout: "main_customer", pageTitle: pageTitle, menuCats: categories, items: groupedItems });
       }
       });
   })
@@ -45,7 +45,7 @@ async function getOneCategory (req, res) {
                 cat.chosen = true;
             }
         }
-      res.render('menu', {layout: "main_customer", pageTitle: pageTitle, menuCats: categories, chosenCat: req.params.category, items: groupedItems });
+      res.render('menu', {layout: "main_customer", pageTitle: pageTitle, menuCats: categories, items: groupedItems });
     }
     });
   })

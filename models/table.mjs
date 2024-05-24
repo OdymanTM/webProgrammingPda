@@ -6,8 +6,8 @@ class Table   {
         this.locationInStore = locationInStore; 
     }
 
-    static async getTableStatus  (callback)  {
-        const query = 'SELECT t.tableid, o.status FROM "table" as t LEFT JOIN "order" as o ON t.tableid = o.tableid where o."orderId" = (select "orderId" from "order" order by "timeExecuted" desc limit 1) or o.status is null'
+    static async  getTablesStatus (callback)  {
+        const query = 'SELECT t.tablelocation, t."name", t.tableid , o.status FROM "table" as t LEFT JOIN "order" as o ON t.tableid = o.tableid where o."orderId" = (select "orderId" from "order" order by "timeExecuted" desc limit 1) or o.status is null'
         try {
             const { rows } = await pool.query(query);
               callback(null, rows)
@@ -21,12 +21,12 @@ class Table   {
         try {
             const { rows } = await pool.query(query, [tableid]);
             if (rows.length == 0) {
-              callback(null, 'Free')
+              callback(null, true)
             } else if (rows[0].status == 'Paid' || rows[0].status == 'Cancelled') {
-              callback(null, 'Free')
+              callback(null, true)
              
             } else {
-              callback(null, 'Occupied')
+              callback(null, false)
             }
           } catch (err) {
             callback(err, null)
