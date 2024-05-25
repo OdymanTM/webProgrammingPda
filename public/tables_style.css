@@ -1,5 +1,5 @@
 body {
-    font-family: 'Source Code Pro';
+    font-family: 'Source Code Pro' !important;
     margin: 0;
     padding: 0;
 }
@@ -65,8 +65,8 @@ body {
 }
 
 .left-bar-tables{
-    padding: 0px 15px 0px 15px;
-    margin: 0px 5px 0px 5px;
+    padding: 10px 15px 10px 15px;
+    margin: 10px 15px 10px 15px;
     text-align: center;
 }
 
@@ -81,11 +81,19 @@ body {
     padding-top:18px;
 }
 
+.table-item{
+    border:none;
+    background-color: #FFFFFF;
+    font-family: 'Source Code Pro';
+    padding:20px;
+}
+
 .right-bar-tables{
     border-top:transparent;
     border-left:solid;
     border-left-color: rgba(27,93,107,0.8);
-    padding: 0px 15px 0px 15px;
+    padding: 20px;
+    padding-left: 25px;
     margin: 0px 5px 0px 5px;
     display:flex;
     flex-direction: row;
@@ -207,7 +215,8 @@ body {
 .chosen_sector{
     color:rgba(27,93,107,1);
     padding-top: 5px;
-    margin-left: 10px;
+    padding:10px;
+    margin:10px;
 }
 
 .chosen_sector {

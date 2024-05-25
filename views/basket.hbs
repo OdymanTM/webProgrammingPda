@@ -1,13 +1,16 @@
 <div class="separator">
     <hr>
 </div> 
-<div class="items">
+<div class="basket-items">
     {{#each items}}
     <div class="item" id={{id}}>
-        <p class="text-content">{{name}}  {{quantity}}</p>
+        <div class = 'desc-and-price'>
+            <p class="text-content">{{name}}  {{quantity}}</p>
+            <p class="price">{{price}} €</p>
+        </div>
         <div class="desc-and-price">
             <p class="desc">{{description}}</p>
-            <p class="price">{{price}} €</p>
+            <!--<p class="price">{{price}} €</p>-->
         </div>
     </div>
     <div class="inbetween-separator">
@@ -16,8 +19,10 @@
     {{/each}}
 </div>
 {{#if items}}
-<button  class="btn btn-primary" style="background-color: rgba(27,93,107,1);" id="submitorder">Submit Order</button>
-<button  class="btn btn-primary" style="background-color: rgba(27,93,107,1);" id="clearBasket">Clear Basket</button>
+<div class = 'button-container'>
+    <button  class="btn btn-primary" style="background-color: rgba(27,93,107,1);" id="submitorder">Submit Order</button>
+    <button  class="btn btn-primary" style="background-color: rgba(27,93,107,1);" id="clearBasket">Clear Basket</button>
+</div>
 {{else}}
 <p>Your current basket is empty</p>
 {{/if}}

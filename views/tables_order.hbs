@@ -1,69 +1,118 @@
     <div class="separator">
         <hr>
     </div>
-    <div class="menu_categories">
-        {{#each menuCats}}
-        {{#if chosen}}
-        <button class="menu" id="chosen" onclick="redirectToMenu(0)">{{category}}</button>
-        {{else}}
-        <button class="menu" onclick="redirectToMenu('{{category}}')">{{category}}</button>
-        {{/if}}
-        {{/each}}
-    </div>
     <div class = 'main'>
         {{#each items}}
-        <div class="chosen_menu">
-            {{@key}}
-        </div>
         <div class="items">
-            {{#each this}}
-            <div class="item" id={{id}}>
+            <div class="item-order" id={{id}}>
                 <div class = 'desc-and-price'>
-                <p class="text-content" data-bs-toggle="modal" data-bs-target="#myModal" data-description="{{description}}" data-name="{{name}}" data-id={{id}} data-price={{price}}>{{name}}</p>
-                <p class="price">{{amount}}</p>
+                    <p class="text-content" data-bs-toggle="modal" data-bs-target="#myModal" data-comment="{{comment}}" data-name="{{name}}" data-id={{id}} data-size={{size}} data-price={{price}}>{{name}}</p>
+                    <p class="price">{{price}} €</p>
                 </div>
-                <div class="desc-and-price">
-                    <p class="desc">{{description}}</p>
-                    <!--<p class="price">{{price}} €</p>-->
+                <div class="desc-and-price-order">
+                    <p class="desc">{{comment}}</p>
+                    <!--<p class="price">amount: {{size}}</p>-->
+                    <div class="counter" style="width: 20%; margin-top:5px;">
+                        <i class="fa-solid fa-minus" style="cursor: pointer; font-size: 15px; color: rgba(27,93,107,1);" onclick="decrement(this, '{{@index}}')"></i>
+                        <span class="counter-value" style="font-size: 18px;" id = '{{@index}}'>1</span>
+                        <i class="fa-solid fa-plus" style="cursor: pointer; font-size: 15px; color: rgba(27,93,107,1);" onclick="increment(this, '{{@index}}')"></i>
+                    </div>
+                </div>       
+                <div class = 'button-container-order'>
+                    <button  class="button-order" onclick = "togglePaid(this)">Paid</button>
                 </div>
             </div>
             <div class="inbetween-separator">
                 <hr>
             </div>
-            {{/each}}
-            {{/each}}
+        {{/each}}
+        </div>   
+        <div class = 'button-container'>
+            <!-- <button  class="btn btn-primary" style="background-color: rgba(27,93,107,1); margin-right: 20px;" id="submitorder">Submit Order</button> -->
+            <button  class="btn btn-primary" style="background-color: rgba(27,93,107,1);" id="clearBasket">Clear Basket</button>
         </div>
         <div class="end-separator">
             <hr>
         </div>
     </div>
+
     <script>
-        function redirectToMenu(category) {
-            if (category !== 0) {
-            window.location.href = "/menu/" + category;    
-            }
-            else {
-                window.location.href = "/menu";
+        let initialItemSizes = {};
+
+        function togglePaid(button){
+            if (button.id === 'chosen'){
+                button.removeAttribute('id');
+            } else {
+                button.setAttribute('id', 'chosen');
             }
         }
-    </script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-    $(document).ready(function() {
-        $('#myModal').on('show.bs.modal', function (event) {
-        let name = $(event.relatedTarget).data('name');
-        let price = $(event.relatedTarget).data('price');
-        let id = $(event.relatedTarget).data('id');
-        let description = $(event.relatedTarget).data('description');
-        let modal = $(this);
-        modal.find('#myModalLabel').text(name);
-        modal.find('#modalItemName').val(name);
-        modal.find('.counter-value').text(1);
-        modal.find('#modalItemQuantity').val(1);
-        modal.find('#modalItemDescription').val(description);
-        modal.find('#modalItemId').val(id);
-        modal.find('#modalItemPrice').val(price);
-        modal.find('#totalcost').text(price);
-        });
+
+        function decrement(button, index) {
+            let counterValue = document.querySelector(`#${index}`);
+            let value = parseInt(counterValue.textContent);
+            if (value > 0) {
+              counterValue.textContent = value - 1;
+              updateItemSize(counterValue);
+            }
+        }
+
+        function increment(button, index) {
+            console.log(index);
+            let counterValue = document.getElementById(`&{index}`);
+            //let counterValue = closest.querySelector('.counter-value');
+            //let totalcost = document.querySelector('#totalcost');
+            //let currentprice = document.querySelector('#modalItemPrice');
+            //let quantity = document.querySelector('#modalItemQuantity');
+            let value = parseInt(counterValue.textContent);
+            counterValue.textContent = value + 1;
+            //quantity.value = value + 1;
+            //totalcost.textContent = (value+1) * parseFloat(currentprice.value);
+            updateItemSize(counterValue);
+        }
+        
+        function updateItemSize(quantityElement) {
+            let itemId = quantityElement.dataset.id;
+            let newSize = parseInt(quantityElement.value);
+            if (newSize !== initialItemSizes[itemId]) {
+                initialItemSizes[itemId] = newSize;
+                updateSubmitButton(); // Call function to update Submit Order button
+            }
+        }
+
+        function updateSubmitButton() {
+            let items = document.querySelectorAll('.items .item-order');
+            let submitButton = document.querySelector('#submitorder');
+            let hasItems = false;
+
+        // Check if any item has a non-zero quantity
+            items.forEach(item => {
+                let quantity = parseInt(item.querySelector('.counter-value').textContent);
+                if (quantity > 0) {
+                    hasItems = true;
+                }
+            });
+
+        // Show or hide Submit Order button based on item quantities
+            if (hasItems) {
+                submitButton.style.display = 'block';
+            } else {
+                submitButton.style.display = 'none';
+            }
+        }
+
+        function initializeInitialItemSizes() {
+            let quantities = document.querySelectorAll('.items .item-order .counter-value');
+            quantities.forEach(quantityElement => {
+                let itemId = quantityElement.dataset.id;
+                initialItemSizes[itemId] = parseInt(quantityElement.textContent);
+            });
+        }
+
+    // Call initializeInitialItemSizes() when the page loads
+    document.addEventListener('DOMContentLoaded', function () {
+        initializeInitialItemSizes();
     });
+    //window.addEventListener('load', initializeInitialItemSizes);
     </script>
+
+    

@@ -1,5 +1,5 @@
 body {
-    font-family: 'Source Code Pro';
+    font-family: 'Source Code Pro' !important;
     margin: 0;
     padding: 0;
 }
@@ -15,6 +15,8 @@ body {
     padding-top: 10px;
     font-family: 'Newsreader';
     font-size: 22px;
+    display:flex;
+    flex-direction: row;
 }
 
 #logo {
@@ -38,6 +40,14 @@ body {
     padding:0.1px;
 }
 
+.basket-items {
+    position: relative;
+    top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
 .items {
     display: flex;
     flex-direction: column;
@@ -55,10 +65,29 @@ body {
     cursor: pointer;
 }
 
+.item-order:first-child{
+    padding-top: 15px;
+}
+
+.item-order {
+    width: 90%;
+    padding: 2px 5px 5px 10px;
+    margin: 0;
+    text-align: left;
+    cursor: pointer;
+}
+
 .desc-and-price{
     display: flex;
     justify-content: space-between;
     cursor:default;
+}
+
+.desc-and-price-order{
+    display: flex;
+    justify-content: space-between;
+    cursor:default;
+    margin:0;
 }
 
 .desc, .price{
@@ -121,10 +150,35 @@ body {
     font-family: 'Source Code Pro';
     margin: 0;
     padding: 0px 10px;
-    border: none;
     border-radius: 10px;
     cursor: pointer;
     background-color: #FFFFFF;
+}
+
+.button-order {
+    border:solid 1px;
+    background-color: #FFFFFF;
+    border-color: rgba(27,93,107,1);
+    font-family: 'Source Code Pro';
+    margin-right: 20px;
+    padding: 0px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#submitorder{
+    margin-left: 10px;
+}
+
+.button-container{
+    display: flex;
+    margin-top: 50px;
+}
+
+
+.button-container-order{
+    display: flex;
+    margin-top: 5px;
 }
 
 .header .button{
