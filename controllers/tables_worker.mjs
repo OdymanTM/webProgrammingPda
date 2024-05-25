@@ -1,7 +1,8 @@
-import { rmSync } from 'fs';
+import { cp, rmSync } from 'fs';
 import table from '../models/table.mjs';
 import order from '../models/order.mjs';
 import util from 'util';
+import e from 'express';
 
 
 export async function getTables(req, res){
@@ -37,7 +38,7 @@ export async function getTables(req, res){
 
 export async function orderOfTable(req, res){
     const pageTitle = 'Order';
-    let status  ;
+    let status = [{status:'Not Ready'}, {status: 'Ready for service'}, {status: 'Cancelled'}, {status: 'Paid'}] ;
     await table.getLastOrderOfTable(req.params.id, (err, order) => {
         if (err){
             console.log(err);
@@ -48,11 +49,28 @@ export async function orderOfTable(req, res){
                 res.status(404).send('No order found');
             }else{
                 console.log(order);
+                for (let stat of status){
+                    if (stat.status === order[0].status){
+                        stat.selected = true;}
+                }
                 res.render('tables_order', {layout: "main", pageTitle: pageTitle, items: order, status: status});
             }
         }
     }
     )}
+
+export async function updateOrderStatus(req, res){
+    await order.updateOrderStatus(req.body.orderId, req.body.status, (err, data) => {
+        if (err){
+            console.log(err);
+            res.status(500).send('Error updating order status');
+        }
+        else{
+            res.status(200).send('Order status updated');
+        }
+    });
+}
+
 
 export async function getOneLocation(req, res){
     const pageTitle = 'Tables';

@@ -6,17 +6,12 @@
         <div class="items">
             <div class="item-order" id={{id}}>
                 <div class = 'desc-and-price'>
-                    <p class="text-content" data-bs-toggle="modal" data-bs-target="#myModal" data-comment="{{comment}}" data-name="{{name}}" data-id={{id}} data-size={{size}} data-price={{price}}>{{name}}</p>
+                    <p class="text-content">{{name}}</p>
                     <p class="price">{{price}} €</p>
                 </div>
                 <div class="desc-and-price-order">
                     <p class="desc">{{comment}}</p>
                     <!--<p class="price">amount: {{size}}</p>-->
-                    <div class="counter" style="width: 20%; margin-top:5px;">
-                        <i class="fa-solid fa-minus" style="cursor: pointer; font-size: 15px; color: rgba(27,93,107,1);" onclick="decrement(this, '{{@index}}')"></i>
-                        <span class="counter-value" style="font-size: 18px;" id = '{{@index}}'>1</span>
-                        <i class="fa-solid fa-plus" style="cursor: pointer; font-size: 15px; color: rgba(27,93,107,1);" onclick="increment(this, '{{@index}}')"></i>
-                    </div>
                 </div>       
                 <div class = 'button-container-order'>
                     <button  class="button-order" onclick = "togglePaid(this)">Paid</button>
@@ -30,14 +25,14 @@
         <div class = 'button-container'>
             {{!-- <button  class="btn btn-primary" style="background-color: rgba(27,93,107,1); margin-right: 20px;" id="submitorder">Submit Order</button>
             <button  class="btn btn-primary" style="background-color: rgba(27,93,107,1);" id="clearBasket">Clear Basket</button> --}}
-            <form action="/submit-your-form-handler" style="padding-left: 20px;" method="post">
+            <form id="updatestatus" style="padding-left: 20px;">
                 <button class="btn btn-primary" style="background-color: rgba(27,93,107,1);" type="submit">Set order Status</button>
-                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                    <option selected>{{items.[0].status}}</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name='status'>
+                    {{#each status}}
+                        <option value="{{status}}", {{#if selected}}selected{{/if}}>{{status}}</option>
+                    {{/each}}
                 </select>
+                <i id="checkmark" style="color: rgba(27,93,107,1);"></i>
         </form>
         </div>
         <div class="end-separator">
@@ -46,82 +41,40 @@
     </div>
 
     <script>
-        let initialItemSizes = {};
-
-        function togglePaid(button){
-            if (button.id === 'chosen'){
-                button.removeAttribute('id');
-            } else {
-                button.setAttribute('id', 'chosen');
-            }
-        }
-
-        function decrement(button, index) {
-            let counterValue = document.querySelector(`#${index}`);
-            let value = parseInt(counterValue.textContent);
-            if (value > 0) {
-              counterValue.textContent = value - 1;
-              updateItemSize(counterValue);
-            }
-        }
-
-        function increment(button, index) {
-            console.log(index);
-            let counterValue = document.getElementById(`&{index}`);
-            //let counterValue = closest.querySelector('.counter-value');
-            //let totalcost = document.querySelector('#totalcost');
-            //let currentprice = document.querySelector('#modalItemPrice');
-            //let quantity = document.querySelector('#modalItemQuantity');
-            let value = parseInt(counterValue.textContent);
-            counterValue.textContent = value + 1;
-            //quantity.value = value + 1;
-            //totalcost.textContent = (value+1) * parseFloat(currentprice.value);
-            updateItemSize(counterValue);
-        }
-        
-        function updateItemSize(quantityElement) {
-            let itemId = quantityElement.dataset.id;
-            let newSize = parseInt(quantityElement.value);
-            if (newSize !== initialItemSizes[itemId]) {
-                initialItemSizes[itemId] = newSize;
-                updateSubmitButton(); // Call function to update Submit Order button
-            }
-        }
-
-        function updateSubmitButton() {
-            let items = document.querySelectorAll('.items .item-order');
-            let submitButton = document.querySelector('#submitorder');
-            let hasItems = false;
-
-        // Check if any item has a non-zero quantity
-            items.forEach(item => {
-                let quantity = parseInt(item.querySelector('.counter-value').textContent);
-                if (quantity > 0) {
-                    hasItems = true;
+            function togglePaid(button){
+                if (button.id === 'chosen'){
+                    button.removeAttribute('id');
+                } else {
+                    button.setAttribute('id', 'chosen');
                 }
-            });
-
-        // Show or hide Submit Order button based on item quantities
-            if (hasItems) {
-                submitButton.style.display = 'block';
-            } else {
-                submitButton.style.display = 'none';
             }
-        }
 
-        function initializeInitialItemSizes() {
-            let quantities = document.querySelectorAll('.items .item-order .counter-value');
-            quantities.forEach(quantityElement => {
-                let itemId = quantityElement.dataset.id;
-                initialItemSizes[itemId] = parseInt(quantityElement.textContent);
-            });
-        }
+            const form = document.querySelector('#updatestatus');
 
-    // Call initializeInitialItemSizes() when the page loads
-    document.addEventListener('DOMContentLoaded', function () {
-        initializeInitialItemSizes();
-    });
-    //window.addEventListener('load', initializeInitialItemSizes);
+            form.addEventListener('submit', async function (event) {
+                event.preventDefault();
+                let status = document.querySelector('#inlineFormCustomSelect');
+                console.log(status);
+                let checkmark = document.querySelector('#checkmark');
+                try {
+                    const response = await fetch('/worker/setorderstatus', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        orderId: {{items.[0].orderId}},
+                        status: status.value
+                    })});
+                    if (response.status == 200) {
+                        checkmark.setAttribute('class', 'fa-solid fa-check');
+                    } else {
+                        checkmark.setAttribute('class', null);
+                    }
+             }catch (err) {
+                    console.error('Error:', err);
+                }
+            }); 
     </script>
 
     

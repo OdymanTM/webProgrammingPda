@@ -1,3 +1,4 @@
+import { query } from 'express';
 import pool from './testing_db.mjs';
 class OrderItem {
     constructor(orderid, timeExcecuted, isCustomerOrder, totalOrderCost, ) {
@@ -17,7 +18,7 @@ class OrderItem {
     }
 
     static async getOrdersOfCustomer(customeremail, callback) {
-        const query = 'select distinct o."totalOrderCost" ,o."timeExecuted" ,o."isCustomerOrder" ,o.status ,o.tableid, o.customeremail from "order" as o where o.customeremail = $1;'
+        const query = 'select distinct o."totalOrderCost" ,o."timeExecuted" ,o."isCustomerOrder" ,o.status ,o.tableid, o.customeremail from "order" as o where o.customeremail = $1 order by "timeExecuted" desc;'
         try {
             const { rows } = await pool.query(query, [customeremail]);
             callback(null, rows)
@@ -38,9 +39,20 @@ class OrderItem {
 
     }
 
+    static async getAllOrdersLimit100(callback) {
+      const query = 'SELECT * FROM "order" order by "timeExecuted" desc LIMIT 100'
+      try {
+          const { rows } = await pool.query(query);
+          callback(null, rows)
+      } catch (err) {
+          callback(err, null)
+      }
+    }
+
+
 
     static async getActiveOrders(callback) {
-      const query = 'SELECT * FROM "order" NATURAL JOIN "table" WHERE status NOT IN (\'Paid\', \'Cancelled\') order by "timeExecuted"'
+      const query = 'SELECT * FROM "order" NATURAL JOIN "table" WHERE status NOT IN (\'Paid\', \'Cancelled\') order by "timeExecuted" desc'
       try {
         const { rows } = await pool.query(query);
         callback(null, rows)
@@ -50,7 +62,7 @@ class OrderItem {
     }
 
     static async getNotActiveOrders(callback) {
-      const query = 'SELECT * FROM "order" WHERE status IN (\'Paid\', \'Cancelled\') order by "timeExecuted"'
+      const query = 'SELECT * FROM "order" WHERE status IN (\'Paid\', \'Cancelled\') order by "timeExecuted" desc'
       try {
         const { rows } = await pool.query(query);
         callback(null, rows)

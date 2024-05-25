@@ -17,7 +17,7 @@ class Table   {
     }
 
     static async getLastOrderOfTable (tableid, callback) {
-      const query = 'select distinct m."name" , m.category,o.status, a."comment" , m."size", m.price  from "order" as o, "table" as t, "addition" as a, "orderAddition" as oa, "menuItem" as m\
+      const query = 'select distinct m."name" , m.category,o.status, o."orderId", a."comment" , m."size", m.price  from "order" as o, "table" as t, "addition" as a, "orderAddition" as oa, "menuItem" as m\
       where o."orderId"  = (select "orderId" from "order" where $1 = "tableid" order by "timeExecuted" desc limit 1) and oa."orderId" = o."orderId" and oa.additionid = a.id\
       and m.id = a.menuitemid'
       try {
