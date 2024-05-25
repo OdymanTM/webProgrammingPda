@@ -1,15 +1,16 @@
-    <div class = 'header'>
-        <img id="logo" width="20%" src="/images/logo.png" alt="App Logo">
-        <span class = "title">{{ pageTitle }}</span>
-        {{#if loggedInUser}}
-                <span style="padding-left: 7%;">Welcome, {{loggedInUser}}</span>
-                <a href={{logoutpath}}><span>Logout</span></a>
+    <div class="header">
+        <div class="header-left">
+            <img id="logo" width="20%" src="/images/logo.png" alt="App Logo">
+            <span class="title">{{ pageTitle }}</span>
+        </div>
+        <div class="header-right">
+            {{#if loggedInUser}}
+                <span>{{loggedInUser}}</span>
+                <a href="{{logoutpath}}" style="margin-left: 20px; margin-right: 30px;">Logout</a>
             {{else}}
-                <span style="padding-left: 7%;"><a href={{loginpath}}>Login</a></span>
+                <a href="{{loginpath}}" style="margin-right: 30px;">Login</a>
             {{/if}}
-        {{!-- <a class="button" href="worker/basket">
-        <i class="fa-solid fa-shop" style="color: rgba(27,93,107,1);;" ></i>
-        </a> --}}
+        </div>
     </div>
 
 <script>

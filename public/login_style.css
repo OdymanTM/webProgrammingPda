@@ -8,6 +8,17 @@ body {
     margin: 0;
 }
 
+.login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #FFFFFF;
+    padding: 20px;
+    border:none;
+    width: 300px;
+}
+
 .login-container {
     display: flex;
     flex-direction: column;
@@ -21,8 +32,6 @@ body {
     width: 200px;
     top:50%;
     left:50%;
-    margin-left:60px;
-
 }
 
 .input-group {
@@ -96,7 +105,9 @@ button:hover {
     max-width:40%;
     height:auto;
     display:block;
-    margin-left: 115px;
-    margin-right: auto;
-    margin-bottom: 50px;
+    margin: 0 auto 50px auto;
+}
+
+.login-container{
+    align-items: center;
 }

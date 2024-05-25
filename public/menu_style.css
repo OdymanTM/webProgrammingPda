@@ -17,6 +17,36 @@ body {
     font-size: 22px;
     display:flex;
     flex-direction: row;
+    align-items:center;
+    justify-content: space-between;
+    box-sizing:border-box;
+}
+
+.log-in-out-button{
+    border:none;
+    padding:none;
+    margin:none;
+    background-color: #FFFFFF;
+    color:rgba(27,93,107,1);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.header-right-customer{
+    display: flex;
+    align-items: center;
+    margin-right:135px;
+}
+
+.header-right span , .header-right-customer span{
+    margin-left: 10px;
 }
 
 #logo {
