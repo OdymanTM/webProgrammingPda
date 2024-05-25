@@ -41,9 +41,15 @@ worker_routes.get('/menu', menuController.getMenu);
 worker_routes.get('/menu/:category', menuController.getOneCategory);
 worker_routes.get('/orders_history', ordersHistoryController.getOrdersHistory);
 worker_routes.get('/tables', tablesController.getTables);
+
+worker_routes.get('/basket', basketController.getBasket);
+worker_routes.post('/basket/submit', orderController.selectedTableCheck ,orderController.submitOrder);
+worker_routes.post('/basket/clear', basketController.clearBasket);
+worker_routes.post('/basket/add', basketController.addToBasket);
+
 worker_routes.get('/tables/order/:id', tablesController.orderOfTable);
 worker_routes.get('/tables/:sector',tablesController.getOneLocation);
-worker_routes.get('/tables/:table/order', tablesController.getTablesOrder);
+worker_routes.get('/tables/:table/order', tablesController.orderOfTable);
 worker_routes.get('/logout', worker_controller.doLogout);
 export default worker_routes;
 
