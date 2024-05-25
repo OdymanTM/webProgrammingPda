@@ -36,6 +36,7 @@ export async function getTables(req, res){
 }
 
 export async function orderOfTable(req, res){
+    const pageTitle = 'Order';
     await table.getLastOrderOfTable(req.params.id, (err, order) => {
         if (err){
             console.log(err);
@@ -45,7 +46,8 @@ export async function orderOfTable(req, res){
             if (order.length === 0){
                 res.status(404).send('No order found');
             }else{
-                res.send(order);
+                console.log(order);
+                res.render('tables_order', {layout: "main", pageTitle: pageTitle, items: order});
             }
         }
     }
