@@ -27,6 +27,10 @@
                 {{#if isAvailable}}
                 <button class="btn btn-primary" style="background-color: rgba(27,93,107,1);" onclick="selecttable({{tableid}})" >Order</button>
                 {{/if}}
+                {{#if addToOrder}}
+                <button class="btn btn-primary" style="background-color: rgba(27,93,107,1);" onclick="selecttable({{tableid}})" >Add more</button>
+                {{/if}}
+
             </div>
             <div class="inbetween-separator-tables">
                 <hr>
@@ -57,7 +61,7 @@
 
     function getTablesOrder(tableid, status, tablelocation, name){
         if (status === 'Free'){
-            alert('No active orders for this table.');
+            alert('No orders yet for this table.');
         }
         else{
             window.location.href = "/worker/tables/order/" + tableid;

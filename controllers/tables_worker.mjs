@@ -7,7 +7,7 @@ import e from 'express';
 
 export async function getTables(req, res){
     const pageTitle = 'Tables';
-    await table.getTablesStatus((err, tables) => {
+    await table.getTablesStatuses((err, tables) => {
             if (err){
                 console.log(err);
                 res.status(500).send('Error finding tables');
@@ -22,6 +22,9 @@ export async function getTables(req, res){
                     }
                     if (tab.status === 'Free' || tab.status === 'Paid' || tab.status === 'Cancelled'){
                         tab.isAvailable = true;
+                    }
+                    if (tab.status === 'Standby' || tab.status === 'Ready for service' || tab.status === 'Not Ready'){
+                        tab.addToOrder = true;
                     }
                     acc[tab.tablelocation].push(tab);
                     return acc;
@@ -41,7 +44,7 @@ export async function getTables(req, res){
 
 export async function orderOfTable(req, res){
     const pageTitle = 'Order';
-    let status = [{status:'Not Ready'}, {status: 'Ready for service'}, {status: 'Cancelled'}, {status: 'Paid'}] ;
+    let status = [{status:'Not Ready'}, {status: 'Ready for service'}, {status: 'Standby'}, {status: 'Cancelled'}, {status: 'Paid'}] ;
     await table.getLastOrderOfTable(req.params.id, (err, order) => {
         if (err){
             console.log(err);

@@ -33,23 +33,6 @@ class Worker   {
             callback(err, null);
         }
     }
-    /*
-    static async registerUser (username, password, name, callback){
-        const usernameExists = await this.isUsernameTaken(username);
-        if (usernameExists === true){
-            callback(null, false);
-        }
-        else if (usernameExists === false){
-            try{
-                const hashedPassword = await bcrypt.hash(password, 10);
-                const addUser = await this.addWorker([username, name, null, null, hashedPassword]);
-                callback(null, true);
-            }
-            catch(err){
-                throw err;
-            }
-        }
-    }*/
 
     static async isUsernameTaken (username, callback){
         const query = 'SELECT username FROM "worker" where username = $1';

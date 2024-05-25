@@ -16,15 +16,15 @@
         <hr>
     </div>
     {{/each}}
-</div>
 {{#if items}}
 <div class="button-container">
-    <button class="btn btn-primary" style="background-color: rgba(27,93,107,1); margin-right: 10%;" id="submitorder">Submit Order</button>
+    <button class="btn btn-primary" style="background-color: rgba(27,93,107,1); margin-right: 10%;" id="submitorder">{{submitButton}}</button>
     <button class="btn btn-primary" style="background-color: rgba(27,93,107,1);" id="clearBasket">Clear Basket</button>
 </div>
 {{else}}
-<p>Your current basket is empty</p>
+    <div>Your current basket is empty</div>
 {{/if}}
+</div>
 
 <div class="end-separator">
     <hr>

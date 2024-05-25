@@ -6,11 +6,21 @@ class Table   {
         this.locationInStore = locationInStore; 
     }
 
-    static async  getTablesStatus (callback)  {
+    static async  getTablesStatuses (callback)  {
         const query = 'SELECT distinct on (t.tableid) t.tablelocation, t."name", t.tableid , o.status, o."timeExecuted" FROM "table" as t LEFT JOIN "order" as o ON t.tableid = o.tableid order by t.tableid, o."timeExecuted" desc'
         try {
             const { rows } = await pool.query(query);
               callback(null, rows)
+          } catch (err) {
+            callback(err, null)
+          }
+    }
+
+    static async getTableStatus (tableid, callback) {
+        const query = 'SELECT status, "orderId" FROM "order" WHERE "tableid" = $1 order by "timeExecuted" desc limit 1'
+        try {
+            const { rows } = await pool.query(query, [tableid]);
+            callback(null, rows)
           } catch (err) {
             callback(err, null)
           }
