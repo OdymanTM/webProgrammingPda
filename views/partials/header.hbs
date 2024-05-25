@@ -1,8 +1,8 @@
-    <div class = 'header'>
+    <div class='header' style='text-align: center;'>
         <img id="logo" width="20%" src="/images/logo.png" alt="App Logo">
         <span class = "title">{{ pageTitle }}</span>
         {{#if loggedInUser}}
-                <span style="padding-left: 7%;">Welcome, {{loggedInUser}}</span>
+                <span  style="padding-left: 7%;">{{loggedInUser}}</span>
                 <a href={{logoutpath}}><span>Logout</span></a>
             {{else}}
                 <span style="padding-left: 7%;"><a href={{loginpath}}>Login</a></span>
