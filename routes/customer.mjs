@@ -26,7 +26,6 @@ customer_routes.use(
             req.session.basket = [];
           }
           res.locals.numberOfBasketItems = req.session.basket.length;
-        //res.locals.numberOfBasketItems = req.session.basket.length || 0;
         next();
     }
 );

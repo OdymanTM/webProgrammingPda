@@ -1,4 +1,7 @@
 import OrderItem from "../models/order.mjs";
+import Table from "../models/table.mjs";
+import jwt from 'jsonwebtoken';
+import pool from '../models/testing_db.mjs';
 
 export async function submitOrder(req, res, next) {
     const table = req.session.worker.table;
@@ -21,12 +24,12 @@ export async function submitOrder(req, res, next) {
             res.status(500).send('Error initiating order')
             throw err;
         }
-        await OrderItem.addOrderItems(client, result[0].orderId, basket, username, null, async (err, data) => {
+        await OrderItem.addOrderItems(client, result[0].orderId, basket, null, username, async (err, data) => {
             if (err) {
                 res.status(500).send('Error adding to the order');
                 throw err;
             } else {
-                req.session.basket = [];
+                req.session.worker.basket = [];
                 await client.query('COMMIT');
                 res.status(200).send('OrderSubmitted');
             }
@@ -44,3 +47,31 @@ export async function submitOrder(req, res, next) {
 export async function addToOrder (req, res) {
     
 } 
+
+export async function selectTableforOrder(req, res){
+    const table = req.params.tableid;
+    await Table.isTableAvailable(table, (err, result) => {
+        if (err) {
+        } else {
+            if (result) {
+                req.session.worker.table = table;
+                res.redirect('/worker/menu');
+            } else {
+                res.status(500).send('Table not available, please select another table.');
+            }
+        }
+    });
+}
+
+export async function selectedTableCheck(req, res, next) {
+    await Table.isTableAvailable(req.session.worker.table, (err, result) => {
+        if (err) {
+        } else {
+            if (result) {
+                next();
+            } else {
+                res.status(500).send('Check table selection');
+            }
+        }
+    });
+}

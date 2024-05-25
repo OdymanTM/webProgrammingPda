@@ -7,7 +7,7 @@ class Table   {
     }
 
     static async  getTablesStatus (callback)  {
-        const query = 'SELECT t.tablelocation, t."name", t.tableid , o.status FROM "table" as t LEFT JOIN "order" as o ON t.tableid = o.tableid where o."orderId" = (select "orderId" from "order" order by "timeExecuted" desc limit 1) or o.status is null'
+        const query = 'SELECT distinct on (t.tableid) t.tablelocation, t."name", t.tableid , o.status, o."timeExecuted" FROM "table" as t LEFT JOIN "order" as o ON t.tableid = o.tableid order by t.tableid, o."timeExecuted" desc'
         try {
             const { rows } = await pool.query(query);
               callback(null, rows)
@@ -27,18 +27,6 @@ class Table   {
           callback(err, null)
         }
     }
-
-    static async  getTablesStatusByLocation (tablelocation,callback)  {
-      const query = 'SELECT t.tablelocation, t."name", t.tableid , o.status FROM "table" as t \
-      LEFT JOIN "order" as o ON t.tableid = o.tableid where t.tablelocation = $1 and (o."orderId" = (select "orderId" from "order" order by "timeExecuted" desc limit 1)\
-       or o.status is null)'
-      try {
-          const { rows } = await pool.query(query, [tablelocation]);
-            callback(null, rows)
-        } catch (err) {
-          callback(err, null)
-        }
-  }
 
     static async isTableAvailable  (tableid, callback)  {
         const query = 'SELECT * FROM "order" WHERE "tableid" = $1 order by "timeExecuted" desc limit 1'

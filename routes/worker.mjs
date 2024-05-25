@@ -5,7 +5,8 @@ import * as menuController from '../controllers/menu_worker.mjs';
 import * as ordersHistoryController from '../controllers/orders_history_worker.mjs';
 import * as tablesController from '../controllers/tables_worker.mjs';
 import * as worker_controller from '../controllers/worker_login.mjs';
-//const controller = await import(`../controllers/sample_controller.mjs`);
+import * as basketController from '../controllers/basket_worker.mjs';
+import * as orderWorkerController from '../controllers/order_worker.mjs';
 
 worker_routes.get('/register', worker_controller.register);
 worker_routes.post('/register', worker_controller.registerToLogin);
@@ -21,6 +22,14 @@ worker_routes.use(
                     res.redirect('/worker/');
                 }
                 res.locals.loggedInUser = data.username;
+                if (!req.session.worker) {
+                    req.session.worker = {};
+                    
+                }
+                if (!req.session.worker.basket) {
+                    req.session.worker.basket = [];
+                }
+                res.locals.numberOfBasketItems = req.session.worker.basket.length;
                 res.locals.logoutpath = '/worker/logout';
                 res.locals.loginpath = '/worker';
                 if(req.originalUrl == '/worker'){res.redirect('/worker/menu')}
@@ -36,17 +45,18 @@ worker_routes.use(
     );
 
 
-worker_routes.get('/posts', worker_controller.posts);
 worker_routes.get('/menu', menuController.getMenu);
 worker_routes.get('/menu/:category', menuController.getOneCategory);
 worker_routes.get('/orders_history', ordersHistoryController.getOrdersHistory);
 worker_routes.get('/tables', tablesController.getTables);
 worker_routes.post('/setorderstatus', tablesController.updateOrderStatus);
-// worker_routes.get('/basket', basketController.getBasket);
-// worker_routes.post('/basket/submit', orderController.selectedTableCheck ,orderController.submitOrder);
-// worker_routes.post('/basket/clear', basketController.clearBasket);
-// worker_routes.post('/basket/add', basketController.addToBasket);
 
+worker_routes.get('/basket', basketController.getBasket);
+worker_routes.post('/basket/submit', orderWorkerController.selectedTableCheck ,orderWorkerController.submitOrder);
+worker_routes.post('/basket/clear', basketController.clearBasket);
+worker_routes.post('/basket/add', basketController.addToBasket);
+
+worker_routes.get("/tables/select/:tableid", orderWorkerController.selectTableforOrder);
 worker_routes.get('/tables/order/:id', tablesController.orderOfTable);
 worker_routes.get('/tables/:sector',tablesController.getOneLocation);
 worker_routes.get('/logout', worker_controller.doLogout);

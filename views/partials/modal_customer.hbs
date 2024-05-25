@@ -6,7 +6,7 @@
         <h5 class="modal-title" id="myModalLabel"></h5> 
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form id="my2ndForm" action="/worker/basket/add" method="POST">
+      <form id="myForm" action="/basket/add" method="POST">
       <div class="modal-body" style="display: flex; justify-content: center; padding: 20px;">
         <input type="hidden" id="modalItemPrice" name="price">
         <input type="hidden" id="modalItemDescription" name="description">
@@ -15,7 +15,7 @@
         <input type="hidden" id="modalItemName" name="name">
         <div class="counter" style="width: 30%;">
           <i class="fa-solid fa-minus" style="cursor: pointer; font-size: 35px; color: rgba(27,93,107,1);" onclick="decrement()"></i>
-          <span class="counter-value" style="font-size: 35px;">5</span>
+          <span class="counter-value" style="font-size: 35px;">1</span>
           <i class="fa-solid fa-plus" style="cursor: pointer; font-size: 35px; color: rgba(27,93,107,1);" onclick="increment()"></i>
         </div>
 

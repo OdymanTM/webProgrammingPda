@@ -122,28 +122,5 @@ class OrderItem {
     }
 }
 
-// let items = [{
-//     id: 1,
-//     comment: "I want it",
-//     isOnTheHouse: false,
-//     quantity: 2,
-// },
-// {
-//     id: 2,
-//     comment: "I want it bad",
-//     isOnTheHouse: false,
-//     quantity: 1,
-// },
-// ];
-//let id;
-// OrderItem.getOrderItems(56, (err, data) => { console.log(data, err) });
-//await OrderItem.initiateOrder(1, true, 'palamaris02@gmail.com',(err, data) => { 
-//  id = data[0].orderId;
-//  console.log(data, err) 
-//});
-//await OrderItem.addOrderItems(id,items, "palamaris02@gmail.com" ,null, (err, data) => { console.log(data, err) });
-//OrderItem.getOrdersOfCustomer("palamaris02@gmail.com", (err, data) => { console.log(data, err) });
-// await OrderItem.updateOrderStatus(56, 'Paid', (err, data) => {
-//   console.log(data, err);
-// });
+
 export default OrderItem;

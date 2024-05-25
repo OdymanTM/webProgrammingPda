@@ -2,10 +2,11 @@ import OrderItem from '../models/order.mjs';
 
 export async function getBasket (req, res) {
     const pageTitle = 'Basket';
-    res.render('basket', {layout: "main", pageTitle: pageTitle, items: req.session.worker.basket});
+    res.render('basket_worker', {pageTitle: pageTitle, items: req.session.worker.basket});
 }
 export async function addToBasket (req, res) {
   //{ id: '1', quantity: '1', comment: '' }
+
   let item = req.body;
   item.id = parseInt(req.body.id); 
   item.quantity = parseInt(req.body.quantity);
@@ -19,8 +20,9 @@ export async function addToBasket (req, res) {
   } else {
     req.session.worker.basket.push(item);
   }
+  console.log(item);
   res.locals.numberOfBasketItems = req.session.worker.basket.length;
-  res.redirect('/menu');
+  res.redirect('/worker/menu');
 }
 
 

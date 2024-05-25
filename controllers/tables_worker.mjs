@@ -20,6 +20,9 @@ export async function getTables(req, res){
                     if (tab.status === null){
                         tab.status = 'Free';
                     }
+                    if (tab.status === 'Free' || tab.status === 'Paid' || tab.status === 'Cancelled'){
+                        tab.isAvailable = true;
+                    }
                     acc[tab.tablelocation].push(tab);
                     return acc;
                 }, {});
@@ -48,7 +51,6 @@ export async function orderOfTable(req, res){
             if (order.length === 0){
                 res.status(404).send('No order found');
             }else{
-                console.log(order);
                 for (let stat of status){
                     if (stat.status === order[0].status){
                         stat.selected = true;}
@@ -112,144 +114,5 @@ export async function getOneLocation(req, res){
             }
         });
 }
-// async function getTables(req, res) {
-//     const pageTitle = 'Tables';
-
-//     const getAllTablesAsync = util.promisify(table.getAllTables);
-//     const getTableLocationsAsync = util.promisify(table.getTableLocations);
-//     const isTableAvailableAsync = util.promisify(table.isTableAvailable);
-//     const getActiveOrdersAsync = util.promisify(order.getActiveOrders);
-
-//     try {
-//         const tables = await getAllTablesAsync();
-//         const locs = await getTableLocationsAsync();
-//         const activeOrders = await getActiveOrdersAsync();
-
-//         const locsObj = {
-//             locs: locs.map(loc => ({
-//                 tablelocation: loc
-//             }))
-//         };
-
-//         const groupedTables = await tables.reduce(async (accPromise, tab) => {
-//             const acc = await accPromise;
-
-//             if (!acc[tab.tablelocation]) {
-//                 acc[tab.tablelocation] = [];
-//             }
-
-//             const statBool = await isTableAvailableAsync(tab.tableid);
-//             let stat;
-//             if (statBool === true) {
-//                 stat = 'Free';
-//             } else if (statBool === false) {
-//                 stat = 'Occupied';
-//             }
-//             const tableObj = {
-//                 name: tab.tablelocation+' '+tab.name,
-//                 status: stat
-//             };
-//             acc[tab.tablelocation].push(tableObj);
-
-//             return acc;
-//         }, Promise.resolve({}));
-//         console.log(JSON.stringify(activeOrders), activeOrders);
-//         res.render('tables', {
-//             layout: "main",
-//             pageTitle: pageTitle,
-//             locs: locsObj.locs,
-//             chosenSector: '',
-//             tables: groupedTables,
-//             activeOrders: JSON.stringify(activeOrders)
-//         });
-//     } catch (err) {
-//         console.log(err);
-//         res.status(500).send('Error finding tables');
-//     }
-// }
-
-// async function getOneLocation(req, res){
-//     const pageTitle = 'Tables';
-
-//     const getAllTablesAsync = util.promisify(table.getAllTables);
-//     const getTableLocationsAsync = util.promisify(table.getTableLocations);
-//     const isTableAvailableAsync = util.promisify(table.isTableAvailable);
-    
-//     try{
-//         const tables = await getAllTablesAsync();
-//         const locs = await getTableLocationsAsync();
-
-//         const locsObj = {
-//             locs: locs.map(loc => ({
-//                 tablelocation: loc
-//             }))
-//         };
-
-//         const groupedTables = await tables.reduce(async (accPromise, tab) => {
-//             const acc = await accPromise;
-
-//             if (!acc[tab.tablelocation]) {
-//                 acc[tab.tablelocation] = [];
-//             }
-
-//             const statBool = await isTableAvailableAsync(tab.tableid);
-//             let stat;
-//             if (statBool === true) {
-//                 stat = 'Free';
-//             } else if (statBool === false) {
-//                 stat = 'Occupied';
-//             }
-
-//             const tableObj = {
-//                 name: tab.tablelocation+' '+tab.name,
-//                 status: stat
-//             };
-//             acc[tab.tablelocation].push(tableObj);
-
-//             return acc;
-//         }, Promise.resolve({}));
-
-//         for (let sector of locsObj.locs){
-//             if (sector.tablelocation == req.params.tablelocation){
-//                 sector.chosen = true;
-//             }
-//         }
-//         res.render('tables', {layout: "main", pageTitle: pageTitle, sectors: locsObj.locs, chosenSector: req.params.tablelocation, tables: groupedTables});
-//     }catch (err) {
-//         console.log(err);
-//         res.status(500).send('Error finding tables');
-//     }
-// }
 
 
-/*
-    await table.getTablesByLocationInStore(req.params.tablelocation, async (err, tables) => {
-        await table.getTableLocations((err, locs) => {
-            if (err){
-                console.log(err);
-                res.status(500).send('Error finding tables');
-            }
-            else{
-                const groupedTables = tables.reduce((acc, tab) => {
-                    if (!acc[tab.tablelocation]){
-                        acc[tab.tablelocation] = [];
-                    }
-                    const tableObj = {
-                        name: tab.tablelocation+' '+tab.name,    // 'tab' is the current table object from the 'tables' array
-                        status: '123'   // Initial status set to an empty string
-                    };
-                    acc[tab.tablelocation].push(tableObj);
-                    return acc;
-                }, {});
-                for (let sector of locs){
-                    if (sector.tablelocation == req.params.tablelocation){
-                        sector.chosen = true;
-                    }
-                }
-                res.render('tables', {layout: "main", pageTitle: pageTitle, sectors: locs, chosenSector: req.params.tablelocation, tables: groupedTables});
-            }
-        });
-    })
-}
-  */  
-    

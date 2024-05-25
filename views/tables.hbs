@@ -24,6 +24,9 @@
                 <div class = "right-bar-tables">
                     {{ status }}
                 </div>
+                {{#if isAvailable}}
+                <button class="btn btn-primary" style="background-color: rgba(27,93,107,1);" onclick="selecttable({{tableid}})" >Order</button>
+                {{/if}}
             </div>
             <div class="inbetween-separator-tables">
                 <hr>
@@ -45,6 +48,12 @@
             window.location.href = "/worker/tables/";
         }
     }
+
+    function selecttable(tableid){
+        window.location.href = "/worker/tables/select/" + tableid;
+    }
+
+    
 
     function getTablesOrder(tableid, status, tablelocation, name){
         if (status === 'Free'){

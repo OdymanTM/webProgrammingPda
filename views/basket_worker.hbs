@@ -18,9 +18,9 @@
     {{/each}}
 </div>
 {{#if items}}
-<div class = 'button-container'>
+<div class="button-container">
     <button class="btn btn-primary" style="background-color: rgba(27,93,107,1); margin-right: 10%;" id="submitorder">Submit Order</button>
-    <button  class="btn btn-primary" style="background-color: rgba(27,93,107,1);" id="clearBasket">Clear Basket</button>
+    <button class="btn btn-primary" style="background-color: rgba(27,93,107,1);" id="clearBasket">Clear Basket</button>
 </div>
 {{else}}
 <p>Your current basket is empty</p>
@@ -36,7 +36,7 @@
             const clearBasket = document.querySelector('#clearBasket');
             clearBasket.addEventListener('click', async function (event) {
                 try {
-                    const response = await fetch('/basket/clear', {
+                    const response = await fetch('/worker/basket/clear', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -58,14 +58,14 @@
             form.addEventListener('click', async function (event) {
                 event.preventDefault();
                 try {
-                    const response = await fetch('/basket/submit', {
+                    const response = await fetch('/worker/basket/submit', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     }); 
                     if (response.status == 200) {
-                        console.log(response.body);
+
                         alert(await response.text());
                     } else {
                         alert(await response.text());
