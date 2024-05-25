@@ -18,12 +18,15 @@
             {{else}}
                 <span style="padding-left: 7%; margin-right: 30px;"><button class = 'log-in-out-button' onclick="loginPath('{{loginpath}}')">Login</button></span>
             {{/if}}
+            <span style="padding-left: 7%;"><button class = 'log-in-out-button'>Selected table: {{selectedtable}}</span>
+        </div>
         <a class="button" style="color: rgba(27,93,107,1);;" href="/worker/basket">
         <i class="fa-solid fa-basket-shopping"></i><span style="text-decoration: none;" >({{numberOfBasketItems}})</span>
         </a>
     </div>
 
-<script>function loginPath(loginpath){
+<script>
+    function loginPath(loginpath){
         window.location.href = loginpath;
     }
 

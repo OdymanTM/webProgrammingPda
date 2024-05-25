@@ -39,7 +39,6 @@ app.use(session({
   cookie: { secure: false, maxAge: 1000 * 60 * 60 * 24 * 7 },
   name: "customer_sid"
 }));
-app.use((req, res, next) => {console.log(req.session); next();});
 
 app.use(passport.initialize());
 

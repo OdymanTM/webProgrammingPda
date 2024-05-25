@@ -29,6 +29,7 @@ worker_routes.use(
                 if (!req.session.worker.basket) {
                     req.session.worker.basket = [];
                 }
+                res.locals.selectedtable = req.session.worker.table;
                 res.locals.numberOfBasketItems = req.session.worker.basket.length;
                 res.locals.logoutpath = '/worker/logout';
                 res.locals.loginpath = '/worker';

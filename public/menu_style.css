@@ -20,7 +20,7 @@ body {
     align-items:center;
     justify-content: space-between;
     box-sizing:border-box;
-}
+} 
 
 .log-in-out-button{
     border:none;
@@ -30,14 +30,14 @@ body {
     color:rgba(27,93,107,1);
 }
 
-.header-left {
+ .header-left {
     display: flex;
     align-items: center;
-}
-.header-right {
+} 
+ .header-right {
     display: flex;
     align-items: center;
-}
+} 
 
 .header-right-customer{
     display: flex;

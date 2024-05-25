@@ -13,6 +13,8 @@ let basket;
 let token;
 let table;
 
+
+//check sign in status
 customer_routes.use(
     (req, res, next) => {
         if (req.session.passport) {
@@ -29,6 +31,11 @@ customer_routes.use(
         next();
     }
 );
+//check sign in status
+
+
+
+
 customer_routes.get('/', (req, res) => {
     res.redirect('/menu');
 });
@@ -40,6 +47,12 @@ customer_routes.get('/basket', basketController.getBasket);
 customer_routes.post('/basket/submit', orderController.noOtherActiveOrderCheck ,orderController.selectedTableCheck, orderController.loggedinCheck ,orderController.submitOrder);
 customer_routes.post('/basket/clear', basketController.clearBasket);
 customer_routes.post('/basket/add', basketController.addToBasket);
+
+
+
+
+
+//google login logic
 customer_routes.get('/auth/google', (req, res, next) => {
     basket = req.session.basket;
     token = req.session.token;
@@ -74,12 +87,12 @@ passport.deserializeUser((user, done) => {
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/callback"
+    callbackURL: "https://webprogramming.fly.dev/menu"
 },
 function(accessToken, refreshToken, profile, cb) {
     return cb(null, profile);
 }));
-
+//google login logic
 
 
 export default customer_routes;
