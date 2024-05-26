@@ -87,7 +87,7 @@ passport.deserializeUser((user, done) => {
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: "https://webprogramming.fly.dev/auth/google/callback"
+    callbackURL: process.env.CALLBACK_URL
 },
 function(accessToken, refreshToken, profile, cb) {
     return cb(null, profile);
