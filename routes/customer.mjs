@@ -12,7 +12,7 @@ import * as orderController from '../controllers/order.mjs';
 let basket;
 let token;
 let table;
-
+let worker;
 
 //check sign in status
 customer_routes.use(
@@ -57,6 +57,7 @@ customer_routes.get('/auth/google', (req, res, next) => {
     basket = req.session.basket;
     token = req.session.token;
     table = req.session.table;
+    worker = req.session.worker;
     next();
 },passport.authenticate('google', { scope: ['email'] }));
 customer_routes.get('/auth/google/callback', 
@@ -66,6 +67,7 @@ function(req, res) {
     req.session.token = token;
     req.session.basket = basket;
     req.session.table = table;
+    req.session.worker = worker;
     res.redirect('/menu');
 });
 customer_routes.get('/customer/logout', (req, res) => {
