@@ -12,7 +12,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    flex-direction: row;
     background-color: #FFFFFF;
     padding: 20px;
     border:none;
@@ -21,7 +21,7 @@ body {
 
 .login-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     background-color: rgba(27,93,107,0.3);

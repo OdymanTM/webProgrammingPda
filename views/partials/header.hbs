@@ -3,31 +3,29 @@
             <img id="logo" width="20%" src="/images/logo.png" alt="App Logo">
             <span class="title">{{ pageTitle }}</span>
         </div>
-        <div class="header-right"><!--
+        <div class="header-middle">
             {{#if loggedInUser}}
-                <span>{{loggedInUser}}</span>
-                <a href="{{logoutpath}}" style="margin-left: 20px; margin-right: 30px;">Logout</a>
+                <button class="btn btn-primary" style="background-color: rgba(27,93,107,1); padding-left: 7%; margin-right: 30px;" onclick="logoutPath('{{logoutpath}}')">Logout</button>
             {{else}}
-                <a href="{{loginpath}}" style="margin-right: 30px;">Login</a>
-            {{/if}}-->
-            {{#if loggedInUser}}
-                <span style="padding-left: 7%;">{{loggedInUser}}</span>
-                <span><button class = 'log-in-out-button' style="padding-left: 7%; margin-right: 30px;" onclick="logoutPath('{{logoutpath}}')">Logout</button></span>
-                
-                <!--<a href="{{logoutpath}}" style="margin-left: 20px; margin-right: 30px;">Logout</a>-->
-            {{else}}
-                <span style="padding-left: 7%; margin-right: 30px;"><button class = 'log-in-out-button' onclick="loginPath('{{loginpath}}')">Login</button></span>
+                <button class="btn btn-primary" style="background-color: rgba(27,93,107,1); padding-left: 7%; margin-right: 30px;" onclick="loginPath('{{loginpath}}')">Login</button>
             {{/if}}
-            <span style="padding-left: 7%;"><button class = 'log-in-out-button'>Selected table: {{selectedtable}}</span>
+            <button class="btn btn-primary" style="background-color: rgba(27,93,107,1);" onclick="tables()">T:{{#if selectedtable}}{{selectedtable}}{{else}}none{{/if}}</button>
         </div>
+        <div class="header-right">
+            
         <a class="button" style="color: rgba(27,93,107,1);;" href="/worker/basket">
-        <i class="fa-solid fa-basket-shopping"></i><span style="text-decoration: none;" >({{numberOfBasketItems}})</span>
+        <i class="fa-solid fa-basket-shopping"></i>
         </a>
+        </div>
     </div>
 
 <script>
     function loginPath(loginpath){
         window.location.href = loginpath;
+    }
+
+     function tables(){
+        window.location.href = '/worker/tables';
     }
 
     function logoutPath(logoutpath){

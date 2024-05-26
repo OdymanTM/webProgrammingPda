@@ -5,12 +5,8 @@ body {
 }
 
 .header {
-    position:fixed;
-    top:0;
-    left:0;
-    right:0;
+ 
     background-color: #FFFFFF;
-    z-index:1000;
     color: rgba(27,93,107,1);
     padding-top: 10px;
     font-family: 'Newsreader';
@@ -96,15 +92,3 @@ body {
     background-color: #FFFFFF;
 }
 
-.header .button{
-    position:fixed;
-    right:5px;
-    top:30px;
-}
-
-.settings .button{
-    background-color: rgba(27,93,107,1);
-    position: fixed;
-    bottom:70px;
-    right:10px;
-}
