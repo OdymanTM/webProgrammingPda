@@ -26,8 +26,8 @@ body {
     border:none;
     padding:none;
     margin:none;
-    background-color: #FFFFFF;
-    color:rgba(27,93,107,1);
+    background-color: rgba(27,93,107,1);
+    color:#FFFFFF;
 }
 
  .header-left {
@@ -38,6 +38,11 @@ body {
     display: flex;
     align-items: center;
 } 
+
+.header-middle{
+    padding-left:10px;
+    
+}
 
 .header-right-customer{
     display: flex;
