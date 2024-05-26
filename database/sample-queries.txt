@@ -1,5 +1,0 @@
-get menu category items 'SELECT name FROM menuItem WHERE category = ?'
-get times visited by a customer 'SELECT timesVisited FROM customer WHERE email = ?'
-
-
-
