@@ -40,12 +40,19 @@ app.use(session({
   cookie: { secure: false, maxAge: 1000 * 60 * 60 * 24 * 7 },
   name: "customer_sid"
 }));
-
+app.use((req, res, next)=>{
+  console.log(req.session)
+  next();
+});
 app.use(passport.initialize());
+app.use(passport.session());
 app.use(favicon(__dirname + '/public/images/favicon.ico')); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use((req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store');
+  next();
+});
 import worker_routes from './routes/worker.mjs';
 import customer_routes from './routes/customer.mjs';
 app.use('/', customer_routes);
