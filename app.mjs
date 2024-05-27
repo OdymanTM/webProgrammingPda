@@ -46,10 +46,7 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use((req, res, next) => {
-  console.log(req.session); 
-  console.log(req.cookies);
-  next();})
+
 app.use(favicon(__dirname + '/public/images/favicon.ico')); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
