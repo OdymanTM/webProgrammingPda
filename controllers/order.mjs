@@ -41,10 +41,10 @@ export async function selectedTableCheck(req, res, next) {
 
 
 export async function loggedinCheck (req, res, next) {
-    if (req.cookies.passport) {
-        return next();
+    if (req.session.passport) {
+        next();
     } else {
-        res.redirect('/auth/google');
+        res.status(500).send('You must login first!');
     }
 }
 
