@@ -4,14 +4,18 @@ import Table from '../models/table.mjs';
 export async function getBasket (req, res) {
     const pageTitle = 'Basket';
     let submitButton;
-    await Table.getTableStatus(req.session.worker.table, async (err, status) => {
-      if(status[0].status == 'Not Ready'|| status[0].status == 'Standby' || status[0].status == 'Ready for service' ) {
+    await Table.getTableStatus(req.cookies.worker_table, async (err, status) => {
+      console.log(status);
+      if(status == null || !status[0]){
+        submitButton = 'Submit the order';
+      }
+      else if(status[0].status == 'Not Ready'|| status[0].status == 'Standby' || status[0].status == 'Ready for service' ) {
         submitButton = 'Add items to the order';
       } else {
         submitButton = 'Submit the order';
       }
     });
-    res.render('basket_worker', {pageTitle: pageTitle, items: req.session.worker.basket , submitButton: submitButton});
+    res.render('basket_worker', {pageTitle: pageTitle, items: req.cookies.worker_basket , submitButton: submitButton});
 }
 export async function addToBasket (req, res) {
 
@@ -19,23 +23,24 @@ export async function addToBasket (req, res) {
   item.id = parseInt(req.body.id); 
   item.quantity = parseInt(req.body.quantity);
   item.price = parseFloat(req.body.price)*item.quantity;
-  req.session.worker.basket = req.session.worker.basket || [];
+  req.cookies.worker_basket = req.cookies.worker_basket || [];
   
-  const index = req.session.worker.basket.findIndex(element => element.id === item.id);
+  const index = req.cookies.worker_basket.findIndex(element => element.id === item.id);
   if (index !== -1) { 
-    req.session.worker.basket[index].quantity += item.quantity; 
-    req.session.worker.basket[index].price += item.price;
+    req.cookies.worker_basket[index].quantity += item.quantity; 
+    req.cookies.worker_basket[index].price += item.price;
   } else {
-    req.session.worker.basket.push(item);
+    req.cookies.worker_basket.push(item);
   }
   
-  res.locals.numberOfBasketItems = req.session.worker.basket.length;
+  res.locals.numberOfBasketItems = req.cookies.worker_basket.length;
+  res.cookie('worker_basket', req.cookies.worker_basket, { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true, secure: false, sameSite: true });
   res.redirect('/worker/menu');
 }
 
 
 export async function clearBasket (req, res) {
-  req.session.worker.basket = [];
+  res.cookie('worker_basket', [], { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true, secure: false, sameSite: true });
   res.sendStatus(200);
 }
 

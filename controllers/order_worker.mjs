@@ -5,10 +5,10 @@ import pool from '../models/testing_db.mjs';
 import { stat } from "fs";
 
 export async function submitOrder(req, res, next) {
-    const table = req.session.worker.table;
-    const basket = req.session.worker.basket;
+    const table = req.cookies.worker_table;
+    const basket = req.cookies.worker_basket;
     let username;
-    jwt.verify(req.session.token, 'omada22', (err, data) => {
+    jwt.verify(req.cookies.worker, 'omada22', (err, data) => {
         if (err) throw err;
         username = data.username;
     });
@@ -18,12 +18,15 @@ export async function submitOrder(req, res, next) {
     }else{
     const client = await pool.connect();    
     await Table.getTableStatus(table, async (err, status) => {
+        if(status == null || !status[0]){
+            status = [ {} ]
+        }
         if(status[0].status == 'Not Ready'|| status[0].status == 'Standby' || status[0].status == 'Ready for service' ) {
             await OrderItem.addOrderItems(null, status[0].orderId, basket, null, username, async (err, data) => {
                 if (err) {
                     res.status(500).send('Error adding to the order');
                 } else {
-                    req.session.worker.basket = [];
+                    res.cookie('worker_basket', [], { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true, secure: false, sameSite: true });
                     res.status(200).send('Items added to the order');
                 }
             });
@@ -40,7 +43,7 @@ export async function submitOrder(req, res, next) {
                             res.status(500).send('Error adding to the order');
                             throw err;
                         } else {
-                            req.session.worker.basket = [];
+                            res.cookie('worker_basket', [], { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true, secure: false, sameSite: true });
                             await client.query('COMMIT');
                             res.status(200).send('OrderSubmitted');
                         }
@@ -60,14 +63,15 @@ export async function submitOrder(req, res, next) {
 
 export async function selectTableforOrder(req, res){
     const table = req.params.tableid;
-    req.session.worker.table = table;
+    res.cookie('worker_table', table, { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true, secure: false, sameSite: true });
     res.redirect('/worker/menu');
 
 }
 
 export async function selectedTableCheck(req, res, next) {
-    if (req.session.worker.table == undefined) {
+    if (req.cookies.worker_table == undefined) {
         res.status(500).send('Table not selected');
-    }
+    } else {
     next();
+    }
 }

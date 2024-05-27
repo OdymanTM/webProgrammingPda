@@ -7,11 +7,14 @@ import { fileURLToPath } from 'url';
 import passport from 'passport';
 import exphbs from 'express-handlebars';
 import favicon from 'serve-favicon';
+import cookieParser from 'cookie-parser';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+app.use(cookieParser());
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 const port = process.env.PORT || '3000';
@@ -30,7 +33,6 @@ const hbs = exphbs.create({  // Creating Handlebars instance with custom helper
 
 app.engine('hbs', engine(hbs));
 app.set('view engine', 'hbs');
-
 const FileStoreSession = FileStore(session);
 app.use(session({
   store: new FileStoreSession({ path: './sessions' }),
@@ -38,14 +40,16 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: { secure: false, maxAge: 1000 * 60 * 60 * 24 * 7 },
-  name: "customer_sid"
+  name: "google_login"
 }));
-app.use((req, res, next)=>{
-  console.log(req.session)
-  next();
-});
+
+
 app.use(passport.initialize());
 app.use(passport.session());
+app.use((req, res, next) => {
+  console.log(req.session); 
+  console.log(req.cookies);
+  next();})
 app.use(favicon(__dirname + '/public/images/favicon.ico')); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -57,3 +61,4 @@ import worker_routes from './routes/worker.mjs';
 import customer_routes from './routes/customer.mjs';
 app.use('/', customer_routes);
 app.use('/worker', worker_routes);
+

@@ -15,22 +15,22 @@ worker_routes.post('/',worker_controller.loginToPosts);
 
 worker_routes.use(
     (req, res, next) => {
-        if (req.session.token) {
-            jwt.verify(req.session.token, 'omada22', (err, data) => {
+        if (req.cookies.worker) {
+            jwt.verify(req.cookies.worker, 'omada22', (err, data) => {
                 if (err) throw err;
                 if(data.exp < Date.now() / 1000) {
                     res.redirect('/worker/');
                 }
                 res.locals.loggedInUser = data.username;
-                if (!req.session.worker) {
-                    req.session.worker = {};
+                if (!req.cookies.worker) {
+                    req.cookies.worker = res.cookie('worker', '', { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true, secure: false, sameSite: true });
                     
                 }
-                if (!req.session.worker.basket) {
-                    req.session.worker.basket = [];
+                if (!req.cookies.worker_basket) {
+                    req.cookies.worker_basket = res.cookie('worker_basket', [], { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true, secure: false, sameSite: true });
                 }
-                res.locals.selectedtable = req.session.worker.table;
-                res.locals.numberOfBasketItems = req.session.worker.basket.length;
+                res.locals.selectedtable = req.cookies.worker_table;
+                res.locals.numberOfBasketItems = req.cookies.worker_basket.length;
                 res.locals.logoutpath = '/worker/logout';
                 res.locals.loginpath = '/worker';
                 if(req.originalUrl == '/worker'){res.redirect('/worker/menu')}

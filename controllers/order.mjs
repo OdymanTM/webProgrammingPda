@@ -8,7 +8,7 @@ export async function tableCheck(req, res) {
         if (err) {
         } else {
             if (result) {
-                req.session.table = table;
+                res.cookie('table', table, { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true, secure: false, sameSite: true });
                 res.redirect('/menu');
             } else {
                 res.status(500).send('Table not available speak with personel');
@@ -33,7 +33,7 @@ export async function noOtherActiveOrderCheck(req, res, next) {
 
 
 export async function selectedTableCheck(req, res, next) {
-    if (req.session.table) {
+    if (req.cookies.table) {
         return next();
     } else {
         res.status(500).send('Error with table selection');}
@@ -41,7 +41,7 @@ export async function selectedTableCheck(req, res, next) {
 
 
 export async function loggedinCheck (req, res, next) {
-    if (req.session.passport) {
+    if (req.cookies.passport) {
         return next();
     } else {
         res.redirect('/auth/google');
@@ -49,8 +49,8 @@ export async function loggedinCheck (req, res, next) {
 }
 
 export async function submitOrder(req, res, next) {
-    const table = req.session.table;
-    const basket = req.session.basket;
+    const table = req.cookies.table;
+    const basket = req.cookies.basket;
     if(basket == undefined ||  basket.length == 0) {
         res.status(500).send('Basket is empty');
         next();
@@ -68,8 +68,8 @@ export async function submitOrder(req, res, next) {
                 res.status(500).send('Error adding to the order');
                 throw err;
             } else {
-                req.session.basket = [];
                 await client.query('COMMIT');
+                res.cookie('basket', [], { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true, secure: false, sameSite: true });
                 res.status(200).send('OrderSubmitted');
             }
         });

@@ -24,10 +24,10 @@ customer_routes.use(
             res.locals.loggedInUser = false;
             res.locals.loginpath = '/auth/google';
         }
-        if (!req.session.basket) {
-            req.session.basket = [];
+        if (!req.cookies.basket) {
+            req.cookies.basket = [];
           }
-          res.locals.numberOfBasketItems = req.session.basket.length;
+          res.locals.numberOfBasketItems = req.cookies.basket.length;
         next();
     }
 );
@@ -53,26 +53,15 @@ customer_routes.post('/basket/add', basketController.addToBasket);
 
 
 //google login logic
-customer_routes.get('/auth/google', (req, res, next) => {
-    basket = req.session.basket;
-    token = req.session.token;
-    table = req.session.table;
-    worker = req.session.worker;
-    next();
-},passport.authenticate('google', { scope: ['email'] }));
+customer_routes.get('/auth/google',passport.authenticate('google', { scope: ['email'] }));
 customer_routes.get('/auth/google/callback', 
 passport.authenticate('google', { failureRedirect: '/menu' }),
 
 function(req, res) {
-    req.session.token = token;
-    req.session.basket = basket;
-    req.session.table = table;
-    req.session.worker = worker;
     res.redirect('/menu');
 });
 customer_routes.get('/customer/logout', (req, res) => {
     delete req.session.passport;
-    delete req.session.basket;
     res.redirect('/menu');
 });
 

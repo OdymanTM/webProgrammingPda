@@ -3,8 +3,8 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
 export async function login(req, res){
-  if (req.session.token) {
-    jwt.verify(req.session.token, 'omada22', (err, data) => {
+  if (req.cookies.worker) {
+    jwt.verify(req.cookies.worker, 'omada22', (err, data) => {
         if (err) throw err;
         if(data.exp < Date.now() / 1000) {
             res.redirect('/worker/');
@@ -27,7 +27,12 @@ export async function loginToPosts(req, res, next){
       } 
       else {
         const token = jwt.sign({ username: username }, 'omada22', { expiresIn: '7d' });
-        req.session.token = token;
+        res.cookie('worker',
+          token,
+          { maxAge: 1000 * 60 * 60 * 24 * 7, 
+            httpOnly: true, 
+            secure: false, 
+            sameSite: true }); 
         res.redirect('/worker/menu');
       }});
     }
@@ -38,8 +43,8 @@ export async function loginToPosts(req, res, next){
   }
 
  export let doLogout = (req, res) => {
-  delete req.session.token;
-  res.redirect('/worker/');
+  res.clearCookie('worker');
+  res.redirect('/worker');
 }
 
 

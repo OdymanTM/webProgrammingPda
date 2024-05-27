@@ -51,7 +51,6 @@ export async function orderOfTable(req, res){
             res.status(500).send('Error finding order');
         }
         else{
-            console.log(order);
             if (order.length === 0){
                 res.status(404).send('No order found');
             }else{
